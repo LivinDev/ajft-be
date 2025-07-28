@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { EmailService } from '../email/email.service';
 import { 
   CreateInternshipDto, 
   UpdateInternshipDto, 
@@ -10,7 +11,10 @@ import {
 
 @Injectable()
 export class InternshipsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private emailService: EmailService
+  ) {}
 
   // Admin creates internship for a user
   async createInternship(createInternshipDto: CreateInternshipDto): Promise<InternshipResponseDto> {
@@ -55,6 +59,24 @@ export class InternshipsService {
       },
     });
 
+    // Send internship assignment email
+    try {
+      await this.emailService.sendInternshipAssignmentEmail(
+        user.email,
+        user.name || 'User',
+        {
+          title: internship.title,
+          role: internship.role,
+          startDate: internship.startDate.toDateString(),
+          endDate: internship.endDate.toDateString(),
+          duration: this.calculateDuration(internship.startDate, internship.endDate),
+          description: internship.description || 'No description provided'
+        }
+      );
+    } catch (error) {
+      console.error('Failed to send internship assignment email:', error);
+    }
+
     return this.mapToResponseDto(internship);
   }
 
@@ -78,8 +100,8 @@ export class InternshipsService {
     return internships.map(this.mapToResponseDto);
   }
 
-  // Get internships by user ID
-  async getInternshipsByUserId(userId: string): Promise<InternshipResponseDto[]> {
+  // Get internships by user ID with dashboard info
+  async getInternshipsByUserId(userId: string): Promise<any[]> {
     const internships = await this.prisma.internship.findMany({
       where: { userId },
       include: {
@@ -96,7 +118,22 @@ export class InternshipsService {
       },
     });
 
-    return internships.map(this.mapToResponseDto);
+    return internships.map(internship => {
+      const mapped = this.mapToResponseDto(internship);
+      const today = new Date();
+      
+      if (internship.status === 'ACTIVE') {
+        const daysLeft = Math.ceil((internship.endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        return {
+          ...mapped,
+          daysLeft: daysLeft > 0 ? daysLeft : 0,
+          isOverdue: daysLeft < 0,
+          progress: this.calculateProgress(internship.startDate, internship.endDate, today)
+        };
+      }
+      
+      return mapped;
+    });
   }
 
   // Get specific internship
@@ -125,6 +162,9 @@ export class InternshipsService {
   async updateInternship(id: string, updateInternshipDto: UpdateInternshipDto): Promise<InternshipResponseDto> {
     const internship = await this.prisma.internship.findUnique({
       where: { id },
+      include: {
+        user: true,
+      },
     });
 
     if (!internship) {
@@ -159,6 +199,28 @@ export class InternshipsService {
       },
     });
 
+    // If status changed to COMPLETED, send completion email with certificate
+    if (updateInternshipDto.status === 'COMPLETED' && internship.status !== 'COMPLETED') {
+      try {
+        const certificateData = await this.getCertificateData(id);
+        const certificateHTML = this.generateCertificateHTML(certificateData);
+        
+        await this.emailService.sendInternshipCompletionEmail(
+          internship.user.email,
+          internship.user.name || 'User',
+          {
+            title: updatedInternship.title,
+            role: updatedInternship.role,
+            duration: this.calculateDuration(updatedInternship.startDate, updatedInternship.endDate),
+            completionDate: new Date().toDateString()
+          },
+          certificateHTML
+        );
+      } catch (error) {
+        console.error('Failed to send internship completion email:', error);
+      }
+    }
+
     return this.mapToResponseDto(updatedInternship);
   }
 
@@ -177,6 +239,28 @@ export class InternshipsService {
     });
 
     return { message: 'Internship deleted successfully' };
+  }
+
+  // Get user dashboard data
+  async getUserDashboard(userId: string): Promise<any> {
+    const internships = await this.getInternshipsByUserId(userId);
+    
+    const stats = {
+      total: internships.length,
+      active: internships.filter(i => i.status === 'ACTIVE').length,
+      completed: internships.filter(i => i.status === 'COMPLETED').length,
+      cancelled: internships.filter(i => i.status === 'CANCELLED').length,
+    };
+
+    const activeInternships = internships.filter(i => i.status === 'ACTIVE');
+    const completedInternships = internships.filter(i => i.status === 'COMPLETED');
+
+    return {
+      stats,
+      activeInternships,
+      completedInternships,
+      recentActivity: internships.slice(0, 5), // Last 5 internships
+    };
   }
 
   // Get certificate data for frontend generation
@@ -377,7 +461,7 @@ export class InternshipsService {
       </head>
       <body>
         <div class="certificate">
-          <div class="organization-logo">AJFT</div>
+          <div class="organization-logo">Kyro Learn</div>
           <div class="certificate-id">ID: ${data.certificateId}</div>
           
           <div class="header">Certificate of Completion</div>
@@ -411,18 +495,16 @@ export class InternshipsService {
             
             <div class="signature">
               <div class="sig-line"></div>
-              <div class="signature-title">AJFT Organization</div>
+              <div class="signature-title">Kyro Learn</div>
             </div>
           </div>
         </div>
         
         <script>
-          // Auto-print functionality for direct PDF download
           function downloadAsPDF() {
             window.print();
           }
           
-          // Add download button for user convenience
           document.addEventListener('DOMContentLoaded', function() {
             const downloadBtn = document.createElement('button');
             downloadBtn.innerHTML = 'Download as PDF';
@@ -430,7 +512,6 @@ export class InternshipsService {
             downloadBtn.onclick = downloadAsPDF;
             document.body.appendChild(downloadBtn);
             
-            // Hide button when printing
             window.addEventListener('beforeprint', function() {
               downloadBtn.style.display = 'none';
             });
@@ -457,6 +538,14 @@ export class InternshipsService {
     } else {
       return `${Math.floor(diffDays / 30)} months`;
     }
+  }
+
+  // Calculate progress percentage
+  private calculateProgress(startDate: Date, endDate: Date, currentDate: Date): number {
+    const totalDuration = endDate.getTime() - startDate.getTime();
+    const elapsed = currentDate.getTime() - startDate.getTime();
+    const progress = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
+    return Math.round(progress);
   }
 
   // Helper method to map to response DTO

@@ -8,7 +8,8 @@ import {
   Delete, 
   UseGuards,
   Query,
-  Res 
+  Res,
+  Request 
 } from '@nestjs/common';
 import { Response } from 'express';
 import { InternshipsService } from './internships.service';
@@ -39,9 +40,23 @@ export class InternshipsController {
     return this.internshipsService.getAllInternships();
   }
 
-  // Get internships by user ID
+  // NEW: User dashboard - Get current user's dashboard data
+  @Get('dashboard')
+  async getUserDashboard(@Request() req: any) {
+    const userId = req.user.userId; // Assuming JWT contains userId
+    return this.internshipsService.getUserDashboard(userId);
+  }
+
+  // NEW: Get current user's internships (from token)
+  @Get('my-internships')
+  async getMyInternships(@Request() req: any) {
+    const userId = req.user.userId;
+    return this.internshipsService.getInternshipsByUserId(userId);
+  }
+
+  // Get internships by user ID (Admin or specific user)
   @Get('user/:userId')
-  async getInternshipsByUserId(@Param('userId') userId: string): Promise<InternshipResponseDto[]> {
+  async getInternshipsByUserId(@Param('userId') userId: string): Promise<any[]> {
     return this.internshipsService.getInternshipsByUserId(userId);
   }
 

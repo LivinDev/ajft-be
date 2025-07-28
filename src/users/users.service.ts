@@ -1,6 +1,7 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
+import { EmailService } from '../email/email.service';
 import { 
   CreateUserDto, 
   UpdatePasswordDto, 
@@ -10,7 +11,10 @@ import {
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private emailService: EmailService
+  ) {}
 
   // Generate random password
   private generateRandomPassword(): string {
@@ -48,6 +52,18 @@ export class UsersService {
         role: role || 'USER',
       },
     });
+
+    // Send login credentials email
+    try {
+      await this.emailService.sendLoginCredentialsEmail(
+        user.email, 
+        user.name || 'User', 
+        plainPassword
+      );
+    } catch (error) {
+      console.error('Failed to send login credentials email:', error);
+      // Note: We don't throw here to avoid failing user creation if email fails
+    }
 
     return {
       id: user.id,
@@ -125,6 +141,18 @@ export class UsersService {
         updatedAt: new Date(),
       },
     });
+
+    // Send password reset notification email
+    try {
+      await this.emailService.sendPasswordResetNotificationEmail(
+        user.email,
+        user.name || 'User',
+        newPlainPassword
+      );
+    } catch (error) {
+      console.error('Failed to send password reset notification email:', error);
+      // Note: We don't throw here to avoid failing password reset if email fails
+    }
 
     return {
       message: 'Password reset successfully',
