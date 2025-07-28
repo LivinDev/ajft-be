@@ -1,0 +1,7 @@
+node_modules/
+.pnpm/
+dist/
+.env
+*.log
+.DS_Store
+coverage/
