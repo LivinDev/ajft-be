@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Internship = $Result.DefaultSelection<Prisma.$InternshipPayload>
+/**
+ * Model Remark
+ * 
+ */
+export type Remark = $Result.DefaultSelection<Prisma.$RemarkPayload>
 
 /**
  * Enums
@@ -198,6 +203,16 @@ export class PrismaClient<
     * ```
     */
   get internship(): Prisma.InternshipDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.remark`: Exposes CRUD operations for the **Remark** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Remarks
+    * const remarks = await prisma.remark.findMany()
+    * ```
+    */
+  get remark(): Prisma.RemarkDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -639,7 +654,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Internship: 'Internship'
+    Internship: 'Internship',
+    Remark: 'Remark'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -658,7 +674,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "internship"
+      modelProps: "user" | "internship" | "remark"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -810,6 +826,80 @@ export namespace Prisma {
           }
         }
       }
+      Remark: {
+        payload: Prisma.$RemarkPayload<ExtArgs>
+        fields: Prisma.RemarkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RemarkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RemarkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>
+          }
+          findFirst: {
+            args: Prisma.RemarkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RemarkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>
+          }
+          findMany: {
+            args: Prisma.RemarkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>[]
+          }
+          create: {
+            args: Prisma.RemarkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>
+          }
+          createMany: {
+            args: Prisma.RemarkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RemarkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>[]
+          }
+          delete: {
+            args: Prisma.RemarkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>
+          }
+          update: {
+            args: Prisma.RemarkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>
+          }
+          deleteMany: {
+            args: Prisma.RemarkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RemarkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RemarkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>[]
+          }
+          upsert: {
+            args: Prisma.RemarkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RemarkPayload>
+          }
+          aggregate: {
+            args: Prisma.RemarkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRemark>
+          }
+          groupBy: {
+            args: Prisma.RemarkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RemarkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RemarkCountArgs<ExtArgs>
+            result: $Utils.Optional<RemarkCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -896,6 +986,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     internship?: InternshipOmit
+    remark?: RemarkOmit
   }
 
   /* Types for Logging */
@@ -991,10 +1082,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     internships: number
+    remarks: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     internships?: boolean | UserCountOutputTypeCountInternshipsArgs
+    remarks?: boolean | UserCountOutputTypeCountRemarksArgs
   }
 
   // Custom InputTypes
@@ -1013,6 +1106,44 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountInternshipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InternshipWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRemarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RemarkWhereInput
+  }
+
+
+  /**
+   * Count Type InternshipCountOutputType
+   */
+
+  export type InternshipCountOutputType = {
+    remarks: number
+  }
+
+  export type InternshipCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    remarks?: boolean | InternshipCountOutputTypeCountRemarksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InternshipCountOutputType without action
+   */
+  export type InternshipCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InternshipCountOutputType
+     */
+    select?: InternshipCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InternshipCountOutputType without action
+   */
+  export type InternshipCountOutputTypeCountRemarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RemarkWhereInput
   }
 
 
@@ -1201,6 +1332,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     internships?: boolean | User$internshipsArgs<ExtArgs>
+    remarks?: boolean | User$remarksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1237,6 +1369,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     internships?: boolean | User$internshipsArgs<ExtArgs>
+    remarks?: boolean | User$remarksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1246,6 +1379,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       internships: Prisma.$InternshipPayload<ExtArgs>[]
+      remarks: Prisma.$RemarkPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1650,6 +1784,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     internships<T extends User$internshipsArgs<ExtArgs> = {}>(args?: Subset<T, User$internshipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InternshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    remarks<T extends User$remarksArgs<ExtArgs> = {}>(args?: Subset<T, User$remarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2098,6 +2233,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.remarks
+   */
+  export type User$remarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    where?: RemarkWhereInput
+    orderBy?: RemarkOrderByWithRelationInput | RemarkOrderByWithRelationInput[]
+    cursor?: RemarkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RemarkScalarFieldEnum | RemarkScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2329,6 +2488,8 @@ export namespace Prisma {
     updatedAt?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    remarks?: boolean | Internship$remarksArgs<ExtArgs>
+    _count?: boolean | InternshipCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["internship"]>
 
   export type InternshipSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2378,6 +2539,8 @@ export namespace Prisma {
   export type InternshipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "role" | "startDate" | "endDate" | "description" | "status" | "certificateUrl" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["internship"]>
   export type InternshipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    remarks?: boolean | Internship$remarksArgs<ExtArgs>
+    _count?: boolean | InternshipCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InternshipIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2390,6 +2553,7 @@ export namespace Prisma {
     name: "Internship"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      remarks: Prisma.$RemarkPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2798,6 +2962,7 @@ export namespace Prisma {
   export interface Prisma__InternshipClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    remarks<T extends Internship$remarksArgs<ExtArgs> = {}>(args?: Subset<T, Internship$remarksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3234,6 +3399,30 @@ export namespace Prisma {
   }
 
   /**
+   * Internship.remarks
+   */
+  export type Internship$remarksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    where?: RemarkWhereInput
+    orderBy?: RemarkOrderByWithRelationInput | RemarkOrderByWithRelationInput[]
+    cursor?: RemarkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RemarkScalarFieldEnum | RemarkScalarFieldEnum[]
+  }
+
+  /**
    * Internship without action
    */
   export type InternshipDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3249,6 +3438,1124 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: InternshipInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Remark
+   */
+
+  export type AggregateRemark = {
+    _count: RemarkCountAggregateOutputType | null
+    _min: RemarkMinAggregateOutputType | null
+    _max: RemarkMaxAggregateOutputType | null
+  }
+
+  export type RemarkMinAggregateOutputType = {
+    id: string | null
+    internshipId: string | null
+    userId: string | null
+    message: string | null
+    requestType: string | null
+    status: string | null
+    adminResponse: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RemarkMaxAggregateOutputType = {
+    id: string | null
+    internshipId: string | null
+    userId: string | null
+    message: string | null
+    requestType: string | null
+    status: string | null
+    adminResponse: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RemarkCountAggregateOutputType = {
+    id: number
+    internshipId: number
+    userId: number
+    message: number
+    requestType: number
+    status: number
+    adminResponse: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RemarkMinAggregateInputType = {
+    id?: true
+    internshipId?: true
+    userId?: true
+    message?: true
+    requestType?: true
+    status?: true
+    adminResponse?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RemarkMaxAggregateInputType = {
+    id?: true
+    internshipId?: true
+    userId?: true
+    message?: true
+    requestType?: true
+    status?: true
+    adminResponse?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RemarkCountAggregateInputType = {
+    id?: true
+    internshipId?: true
+    userId?: true
+    message?: true
+    requestType?: true
+    status?: true
+    adminResponse?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RemarkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Remark to aggregate.
+     */
+    where?: RemarkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Remarks to fetch.
+     */
+    orderBy?: RemarkOrderByWithRelationInput | RemarkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RemarkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Remarks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Remarks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Remarks
+    **/
+    _count?: true | RemarkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RemarkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RemarkMaxAggregateInputType
+  }
+
+  export type GetRemarkAggregateType<T extends RemarkAggregateArgs> = {
+        [P in keyof T & keyof AggregateRemark]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRemark[P]>
+      : GetScalarType<T[P], AggregateRemark[P]>
+  }
+
+
+
+
+  export type RemarkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RemarkWhereInput
+    orderBy?: RemarkOrderByWithAggregationInput | RemarkOrderByWithAggregationInput[]
+    by: RemarkScalarFieldEnum[] | RemarkScalarFieldEnum
+    having?: RemarkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RemarkCountAggregateInputType | true
+    _min?: RemarkMinAggregateInputType
+    _max?: RemarkMaxAggregateInputType
+  }
+
+  export type RemarkGroupByOutputType = {
+    id: string
+    internshipId: string
+    userId: string
+    message: string
+    requestType: string
+    status: string
+    adminResponse: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RemarkCountAggregateOutputType | null
+    _min: RemarkMinAggregateOutputType | null
+    _max: RemarkMaxAggregateOutputType | null
+  }
+
+  type GetRemarkGroupByPayload<T extends RemarkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RemarkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RemarkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RemarkGroupByOutputType[P]>
+            : GetScalarType<T[P], RemarkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RemarkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    internshipId?: boolean
+    userId?: boolean
+    message?: boolean
+    requestType?: boolean
+    status?: boolean
+    adminResponse?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    internship?: boolean | InternshipDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["remark"]>
+
+  export type RemarkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    internshipId?: boolean
+    userId?: boolean
+    message?: boolean
+    requestType?: boolean
+    status?: boolean
+    adminResponse?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    internship?: boolean | InternshipDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["remark"]>
+
+  export type RemarkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    internshipId?: boolean
+    userId?: boolean
+    message?: boolean
+    requestType?: boolean
+    status?: boolean
+    adminResponse?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    internship?: boolean | InternshipDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["remark"]>
+
+  export type RemarkSelectScalar = {
+    id?: boolean
+    internshipId?: boolean
+    userId?: boolean
+    message?: boolean
+    requestType?: boolean
+    status?: boolean
+    adminResponse?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RemarkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "internshipId" | "userId" | "message" | "requestType" | "status" | "adminResponse" | "createdAt" | "updatedAt", ExtArgs["result"]["remark"]>
+  export type RemarkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    internship?: boolean | InternshipDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RemarkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    internship?: boolean | InternshipDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RemarkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    internship?: boolean | InternshipDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RemarkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Remark"
+    objects: {
+      internship: Prisma.$InternshipPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      internshipId: string
+      userId: string
+      message: string
+      requestType: string
+      status: string
+      adminResponse: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["remark"]>
+    composites: {}
+  }
+
+  type RemarkGetPayload<S extends boolean | null | undefined | RemarkDefaultArgs> = $Result.GetResult<Prisma.$RemarkPayload, S>
+
+  type RemarkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RemarkFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RemarkCountAggregateInputType | true
+    }
+
+  export interface RemarkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Remark'], meta: { name: 'Remark' } }
+    /**
+     * Find zero or one Remark that matches the filter.
+     * @param {RemarkFindUniqueArgs} args - Arguments to find a Remark
+     * @example
+     * // Get one Remark
+     * const remark = await prisma.remark.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RemarkFindUniqueArgs>(args: SelectSubset<T, RemarkFindUniqueArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Remark that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RemarkFindUniqueOrThrowArgs} args - Arguments to find a Remark
+     * @example
+     * // Get one Remark
+     * const remark = await prisma.remark.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RemarkFindUniqueOrThrowArgs>(args: SelectSubset<T, RemarkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Remark that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkFindFirstArgs} args - Arguments to find a Remark
+     * @example
+     * // Get one Remark
+     * const remark = await prisma.remark.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RemarkFindFirstArgs>(args?: SelectSubset<T, RemarkFindFirstArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Remark that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkFindFirstOrThrowArgs} args - Arguments to find a Remark
+     * @example
+     * // Get one Remark
+     * const remark = await prisma.remark.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RemarkFindFirstOrThrowArgs>(args?: SelectSubset<T, RemarkFindFirstOrThrowArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Remarks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Remarks
+     * const remarks = await prisma.remark.findMany()
+     * 
+     * // Get first 10 Remarks
+     * const remarks = await prisma.remark.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const remarkWithIdOnly = await prisma.remark.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RemarkFindManyArgs>(args?: SelectSubset<T, RemarkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Remark.
+     * @param {RemarkCreateArgs} args - Arguments to create a Remark.
+     * @example
+     * // Create one Remark
+     * const Remark = await prisma.remark.create({
+     *   data: {
+     *     // ... data to create a Remark
+     *   }
+     * })
+     * 
+     */
+    create<T extends RemarkCreateArgs>(args: SelectSubset<T, RemarkCreateArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Remarks.
+     * @param {RemarkCreateManyArgs} args - Arguments to create many Remarks.
+     * @example
+     * // Create many Remarks
+     * const remark = await prisma.remark.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RemarkCreateManyArgs>(args?: SelectSubset<T, RemarkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Remarks and returns the data saved in the database.
+     * @param {RemarkCreateManyAndReturnArgs} args - Arguments to create many Remarks.
+     * @example
+     * // Create many Remarks
+     * const remark = await prisma.remark.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Remarks and only return the `id`
+     * const remarkWithIdOnly = await prisma.remark.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RemarkCreateManyAndReturnArgs>(args?: SelectSubset<T, RemarkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Remark.
+     * @param {RemarkDeleteArgs} args - Arguments to delete one Remark.
+     * @example
+     * // Delete one Remark
+     * const Remark = await prisma.remark.delete({
+     *   where: {
+     *     // ... filter to delete one Remark
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RemarkDeleteArgs>(args: SelectSubset<T, RemarkDeleteArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Remark.
+     * @param {RemarkUpdateArgs} args - Arguments to update one Remark.
+     * @example
+     * // Update one Remark
+     * const remark = await prisma.remark.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RemarkUpdateArgs>(args: SelectSubset<T, RemarkUpdateArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Remarks.
+     * @param {RemarkDeleteManyArgs} args - Arguments to filter Remarks to delete.
+     * @example
+     * // Delete a few Remarks
+     * const { count } = await prisma.remark.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RemarkDeleteManyArgs>(args?: SelectSubset<T, RemarkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Remarks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Remarks
+     * const remark = await prisma.remark.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RemarkUpdateManyArgs>(args: SelectSubset<T, RemarkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Remarks and returns the data updated in the database.
+     * @param {RemarkUpdateManyAndReturnArgs} args - Arguments to update many Remarks.
+     * @example
+     * // Update many Remarks
+     * const remark = await prisma.remark.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Remarks and only return the `id`
+     * const remarkWithIdOnly = await prisma.remark.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RemarkUpdateManyAndReturnArgs>(args: SelectSubset<T, RemarkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Remark.
+     * @param {RemarkUpsertArgs} args - Arguments to update or create a Remark.
+     * @example
+     * // Update or create a Remark
+     * const remark = await prisma.remark.upsert({
+     *   create: {
+     *     // ... data to create a Remark
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Remark we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RemarkUpsertArgs>(args: SelectSubset<T, RemarkUpsertArgs<ExtArgs>>): Prisma__RemarkClient<$Result.GetResult<Prisma.$RemarkPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Remarks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkCountArgs} args - Arguments to filter Remarks to count.
+     * @example
+     * // Count the number of Remarks
+     * const count = await prisma.remark.count({
+     *   where: {
+     *     // ... the filter for the Remarks we want to count
+     *   }
+     * })
+    **/
+    count<T extends RemarkCountArgs>(
+      args?: Subset<T, RemarkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RemarkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Remark.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RemarkAggregateArgs>(args: Subset<T, RemarkAggregateArgs>): Prisma.PrismaPromise<GetRemarkAggregateType<T>>
+
+    /**
+     * Group by Remark.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RemarkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RemarkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RemarkGroupByArgs['orderBy'] }
+        : { orderBy?: RemarkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RemarkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRemarkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Remark model
+   */
+  readonly fields: RemarkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Remark.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RemarkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    internship<T extends InternshipDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InternshipDefaultArgs<ExtArgs>>): Prisma__InternshipClient<$Result.GetResult<Prisma.$InternshipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Remark model
+   */
+  interface RemarkFieldRefs {
+    readonly id: FieldRef<"Remark", 'String'>
+    readonly internshipId: FieldRef<"Remark", 'String'>
+    readonly userId: FieldRef<"Remark", 'String'>
+    readonly message: FieldRef<"Remark", 'String'>
+    readonly requestType: FieldRef<"Remark", 'String'>
+    readonly status: FieldRef<"Remark", 'String'>
+    readonly adminResponse: FieldRef<"Remark", 'String'>
+    readonly createdAt: FieldRef<"Remark", 'DateTime'>
+    readonly updatedAt: FieldRef<"Remark", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Remark findUnique
+   */
+  export type RemarkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * Filter, which Remark to fetch.
+     */
+    where: RemarkWhereUniqueInput
+  }
+
+  /**
+   * Remark findUniqueOrThrow
+   */
+  export type RemarkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * Filter, which Remark to fetch.
+     */
+    where: RemarkWhereUniqueInput
+  }
+
+  /**
+   * Remark findFirst
+   */
+  export type RemarkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * Filter, which Remark to fetch.
+     */
+    where?: RemarkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Remarks to fetch.
+     */
+    orderBy?: RemarkOrderByWithRelationInput | RemarkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Remarks.
+     */
+    cursor?: RemarkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Remarks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Remarks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Remarks.
+     */
+    distinct?: RemarkScalarFieldEnum | RemarkScalarFieldEnum[]
+  }
+
+  /**
+   * Remark findFirstOrThrow
+   */
+  export type RemarkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * Filter, which Remark to fetch.
+     */
+    where?: RemarkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Remarks to fetch.
+     */
+    orderBy?: RemarkOrderByWithRelationInput | RemarkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Remarks.
+     */
+    cursor?: RemarkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Remarks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Remarks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Remarks.
+     */
+    distinct?: RemarkScalarFieldEnum | RemarkScalarFieldEnum[]
+  }
+
+  /**
+   * Remark findMany
+   */
+  export type RemarkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * Filter, which Remarks to fetch.
+     */
+    where?: RemarkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Remarks to fetch.
+     */
+    orderBy?: RemarkOrderByWithRelationInput | RemarkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Remarks.
+     */
+    cursor?: RemarkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Remarks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Remarks.
+     */
+    skip?: number
+    distinct?: RemarkScalarFieldEnum | RemarkScalarFieldEnum[]
+  }
+
+  /**
+   * Remark create
+   */
+  export type RemarkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Remark.
+     */
+    data: XOR<RemarkCreateInput, RemarkUncheckedCreateInput>
+  }
+
+  /**
+   * Remark createMany
+   */
+  export type RemarkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Remarks.
+     */
+    data: RemarkCreateManyInput | RemarkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Remark createManyAndReturn
+   */
+  export type RemarkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * The data used to create many Remarks.
+     */
+    data: RemarkCreateManyInput | RemarkCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Remark update
+   */
+  export type RemarkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Remark.
+     */
+    data: XOR<RemarkUpdateInput, RemarkUncheckedUpdateInput>
+    /**
+     * Choose, which Remark to update.
+     */
+    where: RemarkWhereUniqueInput
+  }
+
+  /**
+   * Remark updateMany
+   */
+  export type RemarkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Remarks.
+     */
+    data: XOR<RemarkUpdateManyMutationInput, RemarkUncheckedUpdateManyInput>
+    /**
+     * Filter which Remarks to update
+     */
+    where?: RemarkWhereInput
+    /**
+     * Limit how many Remarks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Remark updateManyAndReturn
+   */
+  export type RemarkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * The data used to update Remarks.
+     */
+    data: XOR<RemarkUpdateManyMutationInput, RemarkUncheckedUpdateManyInput>
+    /**
+     * Filter which Remarks to update
+     */
+    where?: RemarkWhereInput
+    /**
+     * Limit how many Remarks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Remark upsert
+   */
+  export type RemarkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Remark to update in case it exists.
+     */
+    where: RemarkWhereUniqueInput
+    /**
+     * In case the Remark found by the `where` argument doesn't exist, create a new Remark with this data.
+     */
+    create: XOR<RemarkCreateInput, RemarkUncheckedCreateInput>
+    /**
+     * In case the Remark was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RemarkUpdateInput, RemarkUncheckedUpdateInput>
+  }
+
+  /**
+   * Remark delete
+   */
+  export type RemarkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
+    /**
+     * Filter which Remark to delete.
+     */
+    where: RemarkWhereUniqueInput
+  }
+
+  /**
+   * Remark deleteMany
+   */
+  export type RemarkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Remarks to delete
+     */
+    where?: RemarkWhereInput
+    /**
+     * Limit how many Remarks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Remark without action
+   */
+  export type RemarkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Remark
+     */
+    select?: RemarkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Remark
+     */
+    omit?: RemarkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RemarkInclude<ExtArgs> | null
   }
 
 
@@ -3294,6 +4601,21 @@ export namespace Prisma {
   };
 
   export type InternshipScalarFieldEnum = (typeof InternshipScalarFieldEnum)[keyof typeof InternshipScalarFieldEnum]
+
+
+  export const RemarkScalarFieldEnum: {
+    id: 'id',
+    internshipId: 'internshipId',
+    userId: 'userId',
+    message: 'message',
+    requestType: 'requestType',
+    status: 'status',
+    adminResponse: 'adminResponse',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RemarkScalarFieldEnum = (typeof RemarkScalarFieldEnum)[keyof typeof RemarkScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3410,6 +4732,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     internships?: InternshipListRelationFilter
+    remarks?: RemarkListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3421,6 +4744,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     internships?: InternshipOrderByRelationAggregateInput
+    remarks?: RemarkOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -3435,6 +4759,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     internships?: InternshipListRelationFilter
+    remarks?: RemarkListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -3479,6 +4804,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Internship"> | Date | string
     userId?: StringFilter<"Internship"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    remarks?: RemarkListRelationFilter
   }
 
   export type InternshipOrderByWithRelationInput = {
@@ -3494,6 +4820,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
+    remarks?: RemarkOrderByRelationAggregateInput
   }
 
   export type InternshipWhereUniqueInput = Prisma.AtLeast<{
@@ -3512,6 +4839,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Internship"> | Date | string
     userId?: StringFilter<"Internship"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    remarks?: RemarkListRelationFilter
   }, "id">
 
   export type InternshipOrderByWithAggregationInput = {
@@ -3548,6 +4876,84 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Internship"> | string
   }
 
+  export type RemarkWhereInput = {
+    AND?: RemarkWhereInput | RemarkWhereInput[]
+    OR?: RemarkWhereInput[]
+    NOT?: RemarkWhereInput | RemarkWhereInput[]
+    id?: StringFilter<"Remark"> | string
+    internshipId?: StringFilter<"Remark"> | string
+    userId?: StringFilter<"Remark"> | string
+    message?: StringFilter<"Remark"> | string
+    requestType?: StringFilter<"Remark"> | string
+    status?: StringFilter<"Remark"> | string
+    adminResponse?: StringNullableFilter<"Remark"> | string | null
+    createdAt?: DateTimeFilter<"Remark"> | Date | string
+    updatedAt?: DateTimeFilter<"Remark"> | Date | string
+    internship?: XOR<InternshipScalarRelationFilter, InternshipWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RemarkOrderByWithRelationInput = {
+    id?: SortOrder
+    internshipId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    adminResponse?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    internship?: InternshipOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type RemarkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RemarkWhereInput | RemarkWhereInput[]
+    OR?: RemarkWhereInput[]
+    NOT?: RemarkWhereInput | RemarkWhereInput[]
+    internshipId?: StringFilter<"Remark"> | string
+    userId?: StringFilter<"Remark"> | string
+    message?: StringFilter<"Remark"> | string
+    requestType?: StringFilter<"Remark"> | string
+    status?: StringFilter<"Remark"> | string
+    adminResponse?: StringNullableFilter<"Remark"> | string | null
+    createdAt?: DateTimeFilter<"Remark"> | Date | string
+    updatedAt?: DateTimeFilter<"Remark"> | Date | string
+    internship?: XOR<InternshipScalarRelationFilter, InternshipWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RemarkOrderByWithAggregationInput = {
+    id?: SortOrder
+    internshipId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    adminResponse?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RemarkCountOrderByAggregateInput
+    _max?: RemarkMaxOrderByAggregateInput
+    _min?: RemarkMinOrderByAggregateInput
+  }
+
+  export type RemarkScalarWhereWithAggregatesInput = {
+    AND?: RemarkScalarWhereWithAggregatesInput | RemarkScalarWhereWithAggregatesInput[]
+    OR?: RemarkScalarWhereWithAggregatesInput[]
+    NOT?: RemarkScalarWhereWithAggregatesInput | RemarkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Remark"> | string
+    internshipId?: StringWithAggregatesFilter<"Remark"> | string
+    userId?: StringWithAggregatesFilter<"Remark"> | string
+    message?: StringWithAggregatesFilter<"Remark"> | string
+    requestType?: StringWithAggregatesFilter<"Remark"> | string
+    status?: StringWithAggregatesFilter<"Remark"> | string
+    adminResponse?: StringNullableWithAggregatesFilter<"Remark"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Remark"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Remark"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -3557,6 +4963,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     internships?: InternshipCreateNestedManyWithoutUserInput
+    remarks?: RemarkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -3568,6 +4975,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     internships?: InternshipUncheckedCreateNestedManyWithoutUserInput
+    remarks?: RemarkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -3579,6 +4987,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     internships?: InternshipUpdateManyWithoutUserNestedInput
+    remarks?: RemarkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -3590,6 +4999,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     internships?: InternshipUncheckedUpdateManyWithoutUserNestedInput
+    remarks?: RemarkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -3634,6 +5044,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutInternshipsInput
+    remarks?: RemarkCreateNestedManyWithoutInternshipInput
   }
 
   export type InternshipUncheckedCreateInput = {
@@ -3648,6 +5059,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    remarks?: RemarkUncheckedCreateNestedManyWithoutInternshipInput
   }
 
   export type InternshipUpdateInput = {
@@ -3662,6 +5074,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInternshipsNestedInput
+    remarks?: RemarkUpdateManyWithoutInternshipNestedInput
   }
 
   export type InternshipUncheckedUpdateInput = {
@@ -3676,6 +5089,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    remarks?: RemarkUncheckedUpdateManyWithoutInternshipNestedInput
   }
 
   export type InternshipCreateManyInput = {
@@ -3717,6 +5131,88 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RemarkCreateInput = {
+    id?: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    internship: InternshipCreateNestedOneWithoutRemarksInput
+    user: UserCreateNestedOneWithoutRemarksInput
+  }
+
+  export type RemarkUncheckedCreateInput = {
+    id?: string
+    internshipId: string
+    userId: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RemarkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    internship?: InternshipUpdateOneRequiredWithoutRemarksNestedInput
+    user?: UserUpdateOneRequiredWithoutRemarksNestedInput
+  }
+
+  export type RemarkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    internshipId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RemarkCreateManyInput = {
+    id?: string
+    internshipId: string
+    userId: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RemarkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RemarkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    internshipId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3773,12 +5269,22 @@ export namespace Prisma {
     none?: InternshipWhereInput
   }
 
+  export type RemarkListRelationFilter = {
+    every?: RemarkWhereInput
+    some?: RemarkWhereInput
+    none?: RemarkWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type InternshipOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RemarkOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -3936,6 +5442,47 @@ export namespace Prisma {
     _max?: NestedEnumInternshipStatusFilter<$PrismaModel>
   }
 
+  export type InternshipScalarRelationFilter = {
+    is?: InternshipWhereInput
+    isNot?: InternshipWhereInput
+  }
+
+  export type RemarkCountOrderByAggregateInput = {
+    id?: SortOrder
+    internshipId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    adminResponse?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RemarkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    internshipId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    adminResponse?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RemarkMinOrderByAggregateInput = {
+    id?: SortOrder
+    internshipId?: SortOrder
+    userId?: SortOrder
+    message?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    adminResponse?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type InternshipCreateNestedManyWithoutUserInput = {
     create?: XOR<InternshipCreateWithoutUserInput, InternshipUncheckedCreateWithoutUserInput> | InternshipCreateWithoutUserInput[] | InternshipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: InternshipCreateOrConnectWithoutUserInput | InternshipCreateOrConnectWithoutUserInput[]
@@ -3943,11 +5490,25 @@ export namespace Prisma {
     connect?: InternshipWhereUniqueInput | InternshipWhereUniqueInput[]
   }
 
+  export type RemarkCreateNestedManyWithoutUserInput = {
+    create?: XOR<RemarkCreateWithoutUserInput, RemarkUncheckedCreateWithoutUserInput> | RemarkCreateWithoutUserInput[] | RemarkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutUserInput | RemarkCreateOrConnectWithoutUserInput[]
+    createMany?: RemarkCreateManyUserInputEnvelope
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+  }
+
   export type InternshipUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<InternshipCreateWithoutUserInput, InternshipUncheckedCreateWithoutUserInput> | InternshipCreateWithoutUserInput[] | InternshipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: InternshipCreateOrConnectWithoutUserInput | InternshipCreateOrConnectWithoutUserInput[]
     createMany?: InternshipCreateManyUserInputEnvelope
     connect?: InternshipWhereUniqueInput | InternshipWhereUniqueInput[]
+  }
+
+  export type RemarkUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RemarkCreateWithoutUserInput, RemarkUncheckedCreateWithoutUserInput> | RemarkCreateWithoutUserInput[] | RemarkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutUserInput | RemarkCreateOrConnectWithoutUserInput[]
+    createMany?: RemarkCreateManyUserInputEnvelope
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3980,6 +5541,20 @@ export namespace Prisma {
     deleteMany?: InternshipScalarWhereInput | InternshipScalarWhereInput[]
   }
 
+  export type RemarkUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RemarkCreateWithoutUserInput, RemarkUncheckedCreateWithoutUserInput> | RemarkCreateWithoutUserInput[] | RemarkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutUserInput | RemarkCreateOrConnectWithoutUserInput[]
+    upsert?: RemarkUpsertWithWhereUniqueWithoutUserInput | RemarkUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RemarkCreateManyUserInputEnvelope
+    set?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    disconnect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    delete?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    update?: RemarkUpdateWithWhereUniqueWithoutUserInput | RemarkUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RemarkUpdateManyWithWhereWithoutUserInput | RemarkUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RemarkScalarWhereInput | RemarkScalarWhereInput[]
+  }
+
   export type InternshipUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<InternshipCreateWithoutUserInput, InternshipUncheckedCreateWithoutUserInput> | InternshipCreateWithoutUserInput[] | InternshipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: InternshipCreateOrConnectWithoutUserInput | InternshipCreateOrConnectWithoutUserInput[]
@@ -3994,10 +5569,38 @@ export namespace Prisma {
     deleteMany?: InternshipScalarWhereInput | InternshipScalarWhereInput[]
   }
 
+  export type RemarkUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RemarkCreateWithoutUserInput, RemarkUncheckedCreateWithoutUserInput> | RemarkCreateWithoutUserInput[] | RemarkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutUserInput | RemarkCreateOrConnectWithoutUserInput[]
+    upsert?: RemarkUpsertWithWhereUniqueWithoutUserInput | RemarkUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RemarkCreateManyUserInputEnvelope
+    set?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    disconnect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    delete?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    update?: RemarkUpdateWithWhereUniqueWithoutUserInput | RemarkUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RemarkUpdateManyWithWhereWithoutUserInput | RemarkUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RemarkScalarWhereInput | RemarkScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutInternshipsInput = {
     create?: XOR<UserCreateWithoutInternshipsInput, UserUncheckedCreateWithoutInternshipsInput>
     connectOrCreate?: UserCreateOrConnectWithoutInternshipsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type RemarkCreateNestedManyWithoutInternshipInput = {
+    create?: XOR<RemarkCreateWithoutInternshipInput, RemarkUncheckedCreateWithoutInternshipInput> | RemarkCreateWithoutInternshipInput[] | RemarkUncheckedCreateWithoutInternshipInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutInternshipInput | RemarkCreateOrConnectWithoutInternshipInput[]
+    createMany?: RemarkCreateManyInternshipInputEnvelope
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+  }
+
+  export type RemarkUncheckedCreateNestedManyWithoutInternshipInput = {
+    create?: XOR<RemarkCreateWithoutInternshipInput, RemarkUncheckedCreateWithoutInternshipInput> | RemarkCreateWithoutInternshipInput[] | RemarkUncheckedCreateWithoutInternshipInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutInternshipInput | RemarkCreateOrConnectWithoutInternshipInput[]
+    createMany?: RemarkCreateManyInternshipInputEnvelope
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
   }
 
   export type EnumInternshipStatusFieldUpdateOperationsInput = {
@@ -4010,6 +5613,62 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutInternshipsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInternshipsInput, UserUpdateWithoutInternshipsInput>, UserUncheckedUpdateWithoutInternshipsInput>
+  }
+
+  export type RemarkUpdateManyWithoutInternshipNestedInput = {
+    create?: XOR<RemarkCreateWithoutInternshipInput, RemarkUncheckedCreateWithoutInternshipInput> | RemarkCreateWithoutInternshipInput[] | RemarkUncheckedCreateWithoutInternshipInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutInternshipInput | RemarkCreateOrConnectWithoutInternshipInput[]
+    upsert?: RemarkUpsertWithWhereUniqueWithoutInternshipInput | RemarkUpsertWithWhereUniqueWithoutInternshipInput[]
+    createMany?: RemarkCreateManyInternshipInputEnvelope
+    set?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    disconnect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    delete?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    update?: RemarkUpdateWithWhereUniqueWithoutInternshipInput | RemarkUpdateWithWhereUniqueWithoutInternshipInput[]
+    updateMany?: RemarkUpdateManyWithWhereWithoutInternshipInput | RemarkUpdateManyWithWhereWithoutInternshipInput[]
+    deleteMany?: RemarkScalarWhereInput | RemarkScalarWhereInput[]
+  }
+
+  export type RemarkUncheckedUpdateManyWithoutInternshipNestedInput = {
+    create?: XOR<RemarkCreateWithoutInternshipInput, RemarkUncheckedCreateWithoutInternshipInput> | RemarkCreateWithoutInternshipInput[] | RemarkUncheckedCreateWithoutInternshipInput[]
+    connectOrCreate?: RemarkCreateOrConnectWithoutInternshipInput | RemarkCreateOrConnectWithoutInternshipInput[]
+    upsert?: RemarkUpsertWithWhereUniqueWithoutInternshipInput | RemarkUpsertWithWhereUniqueWithoutInternshipInput[]
+    createMany?: RemarkCreateManyInternshipInputEnvelope
+    set?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    disconnect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    delete?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    connect?: RemarkWhereUniqueInput | RemarkWhereUniqueInput[]
+    update?: RemarkUpdateWithWhereUniqueWithoutInternshipInput | RemarkUpdateWithWhereUniqueWithoutInternshipInput[]
+    updateMany?: RemarkUpdateManyWithWhereWithoutInternshipInput | RemarkUpdateManyWithWhereWithoutInternshipInput[]
+    deleteMany?: RemarkScalarWhereInput | RemarkScalarWhereInput[]
+  }
+
+  export type InternshipCreateNestedOneWithoutRemarksInput = {
+    create?: XOR<InternshipCreateWithoutRemarksInput, InternshipUncheckedCreateWithoutRemarksInput>
+    connectOrCreate?: InternshipCreateOrConnectWithoutRemarksInput
+    connect?: InternshipWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRemarksInput = {
+    create?: XOR<UserCreateWithoutRemarksInput, UserUncheckedCreateWithoutRemarksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRemarksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InternshipUpdateOneRequiredWithoutRemarksNestedInput = {
+    create?: XOR<InternshipCreateWithoutRemarksInput, InternshipUncheckedCreateWithoutRemarksInput>
+    connectOrCreate?: InternshipCreateOrConnectWithoutRemarksInput
+    upsert?: InternshipUpsertWithoutRemarksInput
+    connect?: InternshipWhereUniqueInput
+    update?: XOR<XOR<InternshipUpdateToOneWithWhereWithoutRemarksInput, InternshipUpdateWithoutRemarksInput>, InternshipUncheckedUpdateWithoutRemarksInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRemarksNestedInput = {
+    create?: XOR<UserCreateWithoutRemarksInput, UserUncheckedCreateWithoutRemarksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRemarksInput
+    upsert?: UserUpsertWithoutRemarksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRemarksInput, UserUpdateWithoutRemarksInput>, UserUncheckedUpdateWithoutRemarksInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -4166,6 +5825,7 @@ export namespace Prisma {
     certificateUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    remarks?: RemarkCreateNestedManyWithoutInternshipInput
   }
 
   export type InternshipUncheckedCreateWithoutUserInput = {
@@ -4179,6 +5839,7 @@ export namespace Prisma {
     certificateUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    remarks?: RemarkUncheckedCreateNestedManyWithoutInternshipInput
   }
 
   export type InternshipCreateOrConnectWithoutUserInput = {
@@ -4188,6 +5849,38 @@ export namespace Prisma {
 
   export type InternshipCreateManyUserInputEnvelope = {
     data: InternshipCreateManyUserInput | InternshipCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RemarkCreateWithoutUserInput = {
+    id?: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    internship: InternshipCreateNestedOneWithoutRemarksInput
+  }
+
+  export type RemarkUncheckedCreateWithoutUserInput = {
+    id?: string
+    internshipId: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RemarkCreateOrConnectWithoutUserInput = {
+    where: RemarkWhereUniqueInput
+    create: XOR<RemarkCreateWithoutUserInput, RemarkUncheckedCreateWithoutUserInput>
+  }
+
+  export type RemarkCreateManyUserInputEnvelope = {
+    data: RemarkCreateManyUserInput | RemarkCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -4224,6 +5917,37 @@ export namespace Prisma {
     userId?: StringFilter<"Internship"> | string
   }
 
+  export type RemarkUpsertWithWhereUniqueWithoutUserInput = {
+    where: RemarkWhereUniqueInput
+    update: XOR<RemarkUpdateWithoutUserInput, RemarkUncheckedUpdateWithoutUserInput>
+    create: XOR<RemarkCreateWithoutUserInput, RemarkUncheckedCreateWithoutUserInput>
+  }
+
+  export type RemarkUpdateWithWhereUniqueWithoutUserInput = {
+    where: RemarkWhereUniqueInput
+    data: XOR<RemarkUpdateWithoutUserInput, RemarkUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RemarkUpdateManyWithWhereWithoutUserInput = {
+    where: RemarkScalarWhereInput
+    data: XOR<RemarkUpdateManyMutationInput, RemarkUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RemarkScalarWhereInput = {
+    AND?: RemarkScalarWhereInput | RemarkScalarWhereInput[]
+    OR?: RemarkScalarWhereInput[]
+    NOT?: RemarkScalarWhereInput | RemarkScalarWhereInput[]
+    id?: StringFilter<"Remark"> | string
+    internshipId?: StringFilter<"Remark"> | string
+    userId?: StringFilter<"Remark"> | string
+    message?: StringFilter<"Remark"> | string
+    requestType?: StringFilter<"Remark"> | string
+    status?: StringFilter<"Remark"> | string
+    adminResponse?: StringNullableFilter<"Remark"> | string | null
+    createdAt?: DateTimeFilter<"Remark"> | Date | string
+    updatedAt?: DateTimeFilter<"Remark"> | Date | string
+  }
+
   export type UserCreateWithoutInternshipsInput = {
     id?: string
     email: string
@@ -4232,6 +5956,7 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
+    remarks?: RemarkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInternshipsInput = {
@@ -4242,11 +5967,44 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
+    remarks?: RemarkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInternshipsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutInternshipsInput, UserUncheckedCreateWithoutInternshipsInput>
+  }
+
+  export type RemarkCreateWithoutInternshipInput = {
+    id?: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRemarksInput
+  }
+
+  export type RemarkUncheckedCreateWithoutInternshipInput = {
+    id?: string
+    userId: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RemarkCreateOrConnectWithoutInternshipInput = {
+    where: RemarkWhereUniqueInput
+    create: XOR<RemarkCreateWithoutInternshipInput, RemarkUncheckedCreateWithoutInternshipInput>
+  }
+
+  export type RemarkCreateManyInternshipInputEnvelope = {
+    data: RemarkCreateManyInternshipInput | RemarkCreateManyInternshipInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutInternshipsInput = {
@@ -4268,6 +6026,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remarks?: RemarkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInternshipsInput = {
@@ -4278,6 +6037,155 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remarks?: RemarkUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type RemarkUpsertWithWhereUniqueWithoutInternshipInput = {
+    where: RemarkWhereUniqueInput
+    update: XOR<RemarkUpdateWithoutInternshipInput, RemarkUncheckedUpdateWithoutInternshipInput>
+    create: XOR<RemarkCreateWithoutInternshipInput, RemarkUncheckedCreateWithoutInternshipInput>
+  }
+
+  export type RemarkUpdateWithWhereUniqueWithoutInternshipInput = {
+    where: RemarkWhereUniqueInput
+    data: XOR<RemarkUpdateWithoutInternshipInput, RemarkUncheckedUpdateWithoutInternshipInput>
+  }
+
+  export type RemarkUpdateManyWithWhereWithoutInternshipInput = {
+    where: RemarkScalarWhereInput
+    data: XOR<RemarkUpdateManyMutationInput, RemarkUncheckedUpdateManyWithoutInternshipInput>
+  }
+
+  export type InternshipCreateWithoutRemarksInput = {
+    id?: string
+    title: string
+    role: string
+    startDate: Date | string
+    endDate: Date | string
+    description?: string | null
+    status?: $Enums.InternshipStatus
+    certificateUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutInternshipsInput
+  }
+
+  export type InternshipUncheckedCreateWithoutRemarksInput = {
+    id?: string
+    title: string
+    role: string
+    startDate: Date | string
+    endDate: Date | string
+    description?: string | null
+    status?: $Enums.InternshipStatus
+    certificateUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type InternshipCreateOrConnectWithoutRemarksInput = {
+    where: InternshipWhereUniqueInput
+    create: XOR<InternshipCreateWithoutRemarksInput, InternshipUncheckedCreateWithoutRemarksInput>
+  }
+
+  export type UserCreateWithoutRemarksInput = {
+    id?: string
+    email: string
+    name?: string | null
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    internships?: InternshipCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRemarksInput = {
+    id?: string
+    email: string
+    name?: string | null
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    internships?: InternshipUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRemarksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRemarksInput, UserUncheckedCreateWithoutRemarksInput>
+  }
+
+  export type InternshipUpsertWithoutRemarksInput = {
+    update: XOR<InternshipUpdateWithoutRemarksInput, InternshipUncheckedUpdateWithoutRemarksInput>
+    create: XOR<InternshipCreateWithoutRemarksInput, InternshipUncheckedCreateWithoutRemarksInput>
+    where?: InternshipWhereInput
+  }
+
+  export type InternshipUpdateToOneWithWhereWithoutRemarksInput = {
+    where?: InternshipWhereInput
+    data: XOR<InternshipUpdateWithoutRemarksInput, InternshipUncheckedUpdateWithoutRemarksInput>
+  }
+
+  export type InternshipUpdateWithoutRemarksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInternshipStatusFieldUpdateOperationsInput | $Enums.InternshipStatus
+    certificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInternshipsNestedInput
+  }
+
+  export type InternshipUncheckedUpdateWithoutRemarksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInternshipStatusFieldUpdateOperationsInput | $Enums.InternshipStatus
+    certificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUpsertWithoutRemarksInput = {
+    update: XOR<UserUpdateWithoutRemarksInput, UserUncheckedUpdateWithoutRemarksInput>
+    create: XOR<UserCreateWithoutRemarksInput, UserUncheckedCreateWithoutRemarksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRemarksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRemarksInput, UserUncheckedUpdateWithoutRemarksInput>
+  }
+
+  export type UserUpdateWithoutRemarksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    internships?: InternshipUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRemarksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    internships?: InternshipUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InternshipCreateManyUserInput = {
@@ -4293,6 +6201,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type RemarkCreateManyUserInput = {
+    id?: string
+    internshipId: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type InternshipUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -4304,6 +6223,7 @@ export namespace Prisma {
     certificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remarks?: RemarkUpdateManyWithoutInternshipNestedInput
   }
 
   export type InternshipUncheckedUpdateWithoutUserInput = {
@@ -4317,6 +6237,7 @@ export namespace Prisma {
     certificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    remarks?: RemarkUncheckedUpdateManyWithoutInternshipNestedInput
   }
 
   export type InternshipUncheckedUpdateManyWithoutUserInput = {
@@ -4328,6 +6249,83 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumInternshipStatusFieldUpdateOperationsInput | $Enums.InternshipStatus
     certificateUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RemarkUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    internship?: InternshipUpdateOneRequiredWithoutRemarksNestedInput
+  }
+
+  export type RemarkUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    internshipId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RemarkUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    internshipId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RemarkCreateManyInternshipInput = {
+    id?: string
+    userId: string
+    message: string
+    requestType?: string
+    status?: string
+    adminResponse?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RemarkUpdateWithoutInternshipInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRemarksNestedInput
+  }
+
+  export type RemarkUncheckedUpdateWithoutInternshipInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RemarkUncheckedUpdateManyWithoutInternshipInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    adminResponse?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

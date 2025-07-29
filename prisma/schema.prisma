@@ -24,6 +24,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   internships  Internship[]
+  remarks         Remark[]
 
   @@map("users")
 }
@@ -49,6 +50,7 @@ model Internship {
   userId          String
   user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  remarks         Remark[]
   @@map("internships")
 }
 
@@ -56,4 +58,23 @@ enum InternshipStatus {
   ACTIVE
   COMPLETED
   CANCELLED
+}
+
+
+model Remark {
+  id              String            @id @default(cuid())
+  internshipId    String
+  userId          String
+  message         String            @db.Text
+  requestType     String            @default("GENERAL_REMARK") // CHANGE_REQUEST, GENERAL_REMARK, EXTENSION_REQUEST
+  status          String            @default("PENDING") // PENDING, REVIEWED, RESOLVED
+  adminResponse   String?           @db.Text
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  // Relations
+  internship      Internship        @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("remarks")
 }

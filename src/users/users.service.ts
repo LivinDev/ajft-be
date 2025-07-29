@@ -8,6 +8,7 @@ import {
   UserResponseDto, 
   CreateUserResponseDto 
 } from './dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -159,6 +160,51 @@ export class UsersService {
       newPassword: newPlainPassword,
     };
   }
+
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<UserResponseDto> {
+  const { email, name, role } = updateUserDto;
+
+  // Check if user exists
+  const existingUser = await this.prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!existingUser) {
+    throw new NotFoundException('User not found');
+  }
+
+  // If email is being updated, check if the new email is already taken
+  if (email && email !== existingUser.email) {
+    const emailExists = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (emailExists) {
+      throw new ConflictException('User with this email already exists');
+    }
+  }
+
+  // Update user
+  const updatedUser = await this.prisma.user.update({
+    where: { id },
+    data: {
+      ...(email && { email }),
+      ...(name !== undefined && { name }), // Allow setting name to null
+      ...(role && { role }),
+      updatedAt: new Date(),
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return updatedUser;
+}
 
   // Admin deletes user
   async deleteUser(id: string): Promise<{ message: string }> {

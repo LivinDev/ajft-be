@@ -144,6 +144,18 @@ exports.Prisma.InternshipScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.RemarkScalarFieldEnum = {
+  id: 'id',
+  internshipId: 'internshipId',
+  userId: 'userId',
+  message: 'message',
+  requestType: 'requestType',
+  status: 'status',
+  adminResponse: 'adminResponse',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -171,7 +183,8 @@ exports.InternshipStatus = exports.$Enums.InternshipStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Internship: 'Internship'
+  Internship: 'Internship',
+  Remark: 'Remark'
 };
 
 /**

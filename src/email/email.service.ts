@@ -5,10 +5,10 @@ import * as nodemailer from 'nodemailer';
 @Injectable()
 export class EmailService {
   private transporter;
-  private readonly companyName: string = 'Kyro Learn';
+  private readonly companyName: string = 'Anand Jivan Foundation Trust';
   private readonly companyLogo: string = 'https://res.cloudinary.com/dkc66bu0s/image/upload/v1739383692/Group_3_1_ddhejw.png';
-  private readonly primaryColor: string = '#2563eb'; 
-  private readonly footerText: string = '© 2025 Kyro Learn. All rights reserved.';
+  private readonly primaryColor: string = '#0b6c1eff'; 
+  private readonly footerText: string = '© 2025 Anand Jivan Foundation Trust. All rights reserved.';
 
   constructor(private configService: ConfigService) {
    this.transporter = nodemailer.createTransport({
@@ -111,7 +111,7 @@ export class EmailService {
           </p>
         </div>
 
-        <a href="https://kyrolearn.com/login" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
+        <a href="https://ajftrust.org/login" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
           Access Dashboard
         </a>
 
@@ -180,7 +180,7 @@ async sendInternshipCompletionEmail(email: string, userName: string, completionD
           </p>
         </div>
 
-        <a href="https://kyrolearn.com/dashboard" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
+        <a href="https://ajftrust.org/dashboard" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
           Download Certificate
         </a>
 
@@ -236,13 +236,9 @@ async sendInternshipCompletionEmail(email: string, userName: string, completionD
             </div>
           </div>
 
-          <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; text-align: left;">
-            <p style="color: #92400e; font-size: 14px; margin: 0;">
-              <strong>Important Security Notice:</strong> Please change your password after your first login to ensure account security.
-            </p>
-          </div>
+         
 
-          <a href="https://kyrolearn.com/login" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
+          <a href="https://ajftrust.org/login" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
             Login to Your Account
           </a>
 
@@ -400,6 +396,156 @@ async sendInternshipCompletionEmail(email: string, userName: string, completionD
     }
   }
 
+async sendRemarkNotificationToAdmin(
+  userEmail: string,
+  userName: string,
+  remarkData: {
+    internshipTitle: string;
+    requestType: string;
+    message: string;
+    remarkId: string;
+  }
+): Promise<boolean> {
+  try {
+    const requestTypeFormatted = remarkData.requestType.replace(/_/g, ' ').toLowerCase()
+      .replace(/\b\w/g, l => l.toUpperCase());
+      
+    const content = `
+      <div style="text-align: center;">
+        <h2 style="color: #1e293b; font-size: 28px; margin-bottom: 30px;">📝 New Remark Submitted</h2>
+        <p style="color: #475569; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+          A user has submitted a new remark that requires your attention.
+        </p>
+        
+        <div style="background-color: #f1f5f9; border-radius: 8px; padding: 30px; margin: 30px 0; text-align: left;">
+          <h3 style="color: #1e293b; font-size: 20px; margin-bottom: 20px; text-align: center;">📋 Remark Details</h3>
+          <div style="margin-bottom: 12px;">
+            <strong style="color: #374151;">User:</strong>
+            <span style="color: #475569; margin-left: 10px;">${userName} (${userEmail})</span>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <strong style="color: #374151;">Internship:</strong>
+            <span style="color: #475569; margin-left: 10px;">${remarkData.internshipTitle}</span>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <strong style="color: #374151;">Request Type:</strong>
+            <span style="color: #475569; margin-left: 10px;">${requestTypeFormatted}</span>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <strong style="color: #374151;">Remark ID:</strong>
+            <span style="color: #475569; margin-left: 10px; font-family: monospace;">${remarkData.remarkId}</span>
+          </div>
+          <div style="margin-top: 20px; padding: 20px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px;">
+            <strong style="color: #374151;">Message:</strong>
+            <p style="color: #475569; margin-top: 8px; line-height: 1.6; white-space: pre-line;">${remarkData.message}</p>
+          </div>
+        </div>
+
+        <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; text-align: left;">
+          <p style="color: #92400e; font-size: 14px; margin: 0;">
+            <strong>Action Required:</strong> Please review this remark and respond through the admin dashboard.
+          </p>
+        </div>
+
+        <a href="https://ajftrust.org/dashboard/" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
+          Review in Dashboard
+        </a>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+          <p style="color: #475569; font-size: 14px;">
+            This notification was sent because a user submitted a remark requiring admin attention.
+          </p>
+        </div>
+      </div>
+    `;
+
+    const mailOptions = {
+      from: `"${this.companyName}" <${this.configService.get('EMAIL_USER')}>`,
+      to: this.configService.get('ADMIN_EMAIL') || 'admin@kyrolearn.com',
+      subject: `🔔 New ${requestTypeFormatted} from ${userName}`,
+      html: this.getBaseTemplate(content),
+    };
+
+    const info = await this.transporter.sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    console.error('Remark notification email sending failed:', error);
+    throw error;
+  }
+}
+
+async sendRemarkResponseToUser(
+  userEmail: string,
+  userName: string,
+  responseData: {
+    internshipTitle: string;
+    originalMessage: string;
+    adminResponse: string;
+    status: string;
+  }
+): Promise<boolean> {
+  try {
+    const statusColor = responseData.status === 'RESOLVED' ? '#10b981' : '#f59e0b';
+    const statusBg = responseData.status === 'RESOLVED' ? '#ecfdf5' : '#fff7ed';
+    
+    const content = `
+      <div style="text-align: center;">
+        <h2 style="color: #1e293b; font-size: 28px; margin-bottom: 30px;">💬 Response to Your Remark</h2>
+        <p style="color: #475569; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+          Hello ${userName}, we have responded to your remark regarding <strong>${responseData.internshipTitle}</strong>.
+        </p>
+        
+        <div style="background-color: #f8fafc; border-radius: 8px; padding: 25px; margin: 30px 0; text-align: left;">
+          <h3 style="color: #1e293b; font-size: 18px; margin-bottom: 15px;">📝 Your Original Message</h3>
+          <div style="background-color: #ffffff; border-left: 4px solid #cbd5e1; padding: 15px; border-radius: 0 6px 6px 0;">
+            <p style="color: #64748b; font-style: italic; line-height: 1.6; margin: 0; white-space: pre-line;">${responseData.originalMessage}</p>
+          </div>
+        </div>
+
+        <div style="background-color: ${statusBg}; border-left: 4px solid ${statusColor}; padding: 25px; margin: 30px 0; text-align: left; border-radius: 0 8px 8px 0;">
+          <h3 style="color: #1e293b; font-size: 18px; margin-bottom: 15px;">💡 Admin Response</h3>
+          <p style="color: #374151; line-height: 1.6; margin-bottom: 15px; white-space: pre-line;">${responseData.adminResponse}</p>
+          <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid ${statusColor};">
+            <strong style="color: #374151;">Status: </strong>
+            <span style="color: ${statusColor}; font-weight: 600; text-transform: uppercase; font-size: 14px;">
+              ${responseData.status}
+            </span>
+          </div>
+        </div>
+
+        <div style="background-color: #e0f2fe; border-left: 4px solid #0284c7; padding: 15px; margin: 20px 0; text-align: left;">
+          <p style="color: #0c4a6e; font-size: 14px; margin: 0;">
+            <strong>Need More Help?</strong> If you have additional questions, please submit another remark.
+          </p>
+        </div>
+
+        <a href="https://ajftrust.org/dashboard/internships" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
+          View Dashboard
+        </a>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+          <p style="color: #475569; font-size: 14px;">
+            Thank you for your patience. We're here to help you succeed!
+          </p>
+        </div>
+      </div>
+    `;
+
+    const mailOptions = {
+      from: `"${this.companyName}" <${this.configService.get('EMAIL_USER')}>`,
+      to: userEmail,
+      subject: `📬 Response to Your Remark - ${responseData.internshipTitle}`,
+      html: this.getBaseTemplate(content),
+    };
+
+    const info = await this.transporter.sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    console.error('Remark response email sending failed:', error);
+    throw error;
+  }
+}
+
   async sendWelcomeEmail(email: string, userName: string) {
     try {
       const content = `
@@ -417,7 +563,7 @@ async sendInternshipCompletionEmail(email: string, userName: string, completionD
               <li>Check out our getting started guide</li>
             </ul>
           </div>
-          <a href="https://kyrolearn.com" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
+          <a href="https://ajftrust.org" style="display: inline-block; background-color: ${this.primaryColor}; color: #ffffff; text-decoration: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; margin-top: 20px;">
             Get Started
           </a>
         </div>
