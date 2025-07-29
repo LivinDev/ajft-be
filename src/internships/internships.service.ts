@@ -113,43 +113,62 @@ export class InternshipsService {
     return internships.map(this.mapToResponseDto);
   }
 
-  async generateCertificatePDF(data: any): Promise<Buffer> {
-    const html = this.generateCertificateHTML(data);
+ async generateCertificatePDF(data: any): Promise<Buffer> {
+  const html = this.generateCertificateHTML(data);
 
-    const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+  const puppeteer = require('puppeteer');
+  
+  // Use production configuration
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  const browserOptions = isProduction ? {
+    executablePath: '/usr/bin/google-chrome-stable',
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-renderer-backgrounding',
+      '--disable-features=TranslateUI',
+      '--disable-web-security',
+      '--disable-features=VizDisplayCompositor',
+    ]
+  } : {
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  };
 
+  const browser = await puppeteer.launch(browserOptions);
+
+  try {
     const page = await browser.newPage();
-
-    // Set viewport to match certificate dimensions
     await page.setViewport({ width: 1100, height: 800 });
-
     await page.setContent(html, { waitUntil: 'networkidle0' });
-
-    // Wait for fonts and styles to load - FIXED METHOD
     await page.evaluateHandle('document.fonts.ready');
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Use regular setTimeout instead
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Generate PDF with exact dimensions
     const pdfBuffer = await page.pdf({
       width: '11in',
       height: '8.5in',
       landscape: true,
       printBackground: true,
-      margin: {
-        top: '0',
-        right: '0',
-        bottom: '0',
-        left: '0',
-      },
+      margin: { top: '0', right: '0', bottom: '0', left: '0' },
     });
 
-    await browser.close();
     return pdfBuffer;
+  } finally {
+    await browser.close();
   }
+}
+
+
   // Get internships by user ID with dashboard info
   async getInternshipsByUserId(userId: string): Promise<any[]> {
     const internships = await this.prisma.internship.findMany({
@@ -498,15 +517,40 @@ export class InternshipsService {
   // Add this method to your InternshipsService
   // Add this method to your InternshipsService class
   // Add this method to your InternshipsService class
-  async generateCertificatePNG(data: any): Promise<Buffer> {
-    const html = this.generateCertificateHTML(data);
+async generateCertificatePNG(data: any): Promise<Buffer> {
+  const html = this.generateCertificateHTML(data);
 
-    const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+  const puppeteer = require('puppeteer');
+  
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  const browserOptions = isProduction ? {
+    executablePath: '/usr/bin/google-chrome-stable',
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-renderer-backgrounding',
+      '--disable-features=TranslateUI',
+      '--disable-web-security',
+      '--disable-features=VizDisplayCompositor',
+    ]
+  } : {
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  };
 
+  const browser = await puppeteer.launch(browserOptions);
+
+  try {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'networkidle0' });
     await page.setViewport({ width: 900, height: 700 });
@@ -517,9 +561,11 @@ export class InternshipsService {
       clip: { x: 0, y: 0, width: 900, height: 700 },
     });
 
-    await browser.close();
     return pngBuffer;
+  } finally {
+    await browser.close();
   }
+}
 
   // Get enhanced internship details for user (with certificate availability)
   async getMyInternshipDetails(
