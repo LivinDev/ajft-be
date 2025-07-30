@@ -113,61 +113,61 @@ export class InternshipsService {
     return internships.map(this.mapToResponseDto);
   }
 
- async generateCertificatePDF(data: any): Promise<Buffer> {
-  const html = this.generateCertificateHTML(data);
+  async generateCertificatePDF(data: any): Promise<Buffer> {
+    const html = this.generateCertificateHTML(data);
 
-  const puppeteer = require('puppeteer');
-  
-  // Use production configuration
-  const isProduction = process.env.NODE_ENV === 'production';
-  
-  const browserOptions = isProduction ? {
-    executablePath: '/usr/bin/google-chrome-stable',
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process',
-      '--disable-gpu',
-      '--disable-background-timer-throttling',
-      '--disable-backgrounding-occluded-windows',
-      '--disable-renderer-backgrounding',
-      '--disable-features=TranslateUI',
-      '--disable-web-security',
-      '--disable-features=VizDisplayCompositor',
-    ]
-  } : {
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  };
+    const puppeteer = require('puppeteer');
 
-  const browser = await puppeteer.launch(browserOptions);
+    // Use production configuration
+    const isProduction = process.env.NODE_ENV === 'production';
 
-  try {
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1100, height: 800 });
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-    await page.evaluateHandle('document.fonts.ready');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const browserOptions = isProduction
+      ? {
+          executablePath: '/usr/bin/google-chrome-stable',
+          headless: true,
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu',
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-renderer-backgrounding',
+            '--disable-features=TranslateUI',
+            '--disable-web-security',
+            '--disable-features=VizDisplayCompositor',
+          ],
+        }
+      : {
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        };
 
-    const pdfBuffer = await page.pdf({
-      width: '11in',
-      height: '8.5in',
-      landscape: true,
-      printBackground: true,
-      margin: { top: '0', right: '0', bottom: '0', left: '0' },
-    });
+    const browser = await puppeteer.launch(browserOptions);
 
-    return pdfBuffer;
-  } finally {
-    await browser.close();
+    try {
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1100, height: 800 });
+      await page.setContent(html, { waitUntil: 'networkidle0' });
+      await page.evaluateHandle('document.fonts.ready');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+     const pdfBuffer = await page.pdf({
+  format: 'Letter',
+  landscape: true,
+  printBackground: true,
+  margin: { top: '0', right: '0', bottom: '0', left: '0' },
+});
+
+      return pdfBuffer;
+    } finally {
+      await browser.close();
+    }
   }
-}
-
 
   // Get internships by user ID with dashboard info
   async getInternshipsByUserId(userId: string): Promise<any[]> {
@@ -517,55 +517,57 @@ export class InternshipsService {
   // Add this method to your InternshipsService
   // Add this method to your InternshipsService class
   // Add this method to your InternshipsService class
-async generateCertificatePNG(data: any): Promise<Buffer> {
-  const html = this.generateCertificateHTML(data);
+  async generateCertificatePNG(data: any): Promise<Buffer> {
+    const html = this.generateCertificateHTML(data);
 
-  const puppeteer = require('puppeteer');
-  
-  const isProduction = process.env.NODE_ENV === 'production';
-  
-  const browserOptions = isProduction ? {
-    executablePath: '/usr/bin/google-chrome-stable',
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process',
-      '--disable-gpu',
-      '--disable-background-timer-throttling',
-      '--disable-backgrounding-occluded-windows',
-      '--disable-renderer-backgrounding',
-      '--disable-features=TranslateUI',
-      '--disable-web-security',
-      '--disable-features=VizDisplayCompositor',
-    ]
-  } : {
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  };
+    const puppeteer = require('puppeteer');
 
-  const browser = await puppeteer.launch(browserOptions);
+    const isProduction = process.env.NODE_ENV === 'production';
 
-  try {
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-    await page.setViewport({ width: 900, height: 700 });
+    const browserOptions = isProduction
+      ? {
+          executablePath: '/usr/bin/google-chrome-stable',
+          headless: true,
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu',
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-renderer-backgrounding',
+            '--disable-features=TranslateUI',
+            '--disable-web-security',
+            '--disable-features=VizDisplayCompositor',
+          ],
+        }
+      : {
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        };
 
-    const pngBuffer = await page.screenshot({
-      type: 'png',
-      fullPage: false,
-      clip: { x: 0, y: 0, width: 900, height: 700 },
-    });
+    const browser = await puppeteer.launch(browserOptions);
 
-    return pngBuffer;
-  } finally {
-    await browser.close();
+    try {
+      const page = await browser.newPage();
+      await page.setContent(html, { waitUntil: 'networkidle0' });
+      await page.setViewport({ width: 900, height: 700 });
+
+      const pngBuffer = await page.screenshot({
+        type: 'png',
+        fullPage: false,
+        clip: { x: 0, y: 0, width: 900, height: 700 },
+      });
+
+      return pngBuffer;
+    } finally {
+      await browser.close();
+    }
   }
-}
 
   // Get enhanced internship details for user (with certificate availability)
   async getMyInternshipDetails(
@@ -673,278 +675,410 @@ async generateCertificatePNG(data: any): Promise<Buffer> {
   }
 
   // Generate certificate HTML template
-  generateCertificateHTML(data: any): string {
-    return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Certificate - ${data.userName}</title>
-      <style>
+// Generate certificate HTML template
+// Generate certificate HTML template
+generateCertificateHTML(data: any): string {
+  return `
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Certificate – ${data.userName}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@700&family=Crimson+Text:wght@400;600&display=swap');
+
         * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
         body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  margin: 0;
-  padding: 20px;
-  width: 11in;
-  height: 8.5in;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-        
-        .certificate {
-  background: white;
-  width: 10.5in;    /* Slightly smaller than page */
-  height: 8in;      /* Slightly smaller than page */
-  position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  border-radius: 20px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-        
-        /* Top section with logo and medal */
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          padding: 40px 60px 20px 60px;
-          position: relative;
+            width: 11in;
+            height: 8.5in;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f2ed 0%, #e8e2d5 100%);
+            font-family: 'Playfair Display', serif;
         }
-        
+
+        .cert {
+            position: relative;
+            width: 10.8in;
+            height: 8.3in;
+            background: #fff;
+            border: 32px solid transparent;
+            border-image: linear-gradient(45deg, #c9b037, #f4e87c, #c9b037, #8b7355) 1;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 8px #c9b037,
+                0 0 0 12px #fff,
+                0 0 0 16px #8b7355,
+                0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Decorative corner elements */
+        .corner-tl,
+        .corner-tr,
+        .corner-bl,
+        .corner-br {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #c9b037 0%, #f4e87c 50%, #c9b037 100%);
+            z-index: 1;
+        }
+
+        .corner-tl {
+            top: -40px;
+            left: -40px;
+            border-radius: 0 0 100% 0;
+        }
+
+        .corner-tr {
+            top: -40px;
+            right: -40px;
+            border-radius: 0 0 0 100%;
+        }
+
+        .corner-bl {
+            bottom: -40px;
+            left: -40px;
+            border-radius: 0 100% 0 0;
+        }
+
+        .corner-br {
+            bottom: -40px;
+            right: -40px;
+            border-radius: 100% 0 0 0;
+        }
+
+        /* Rich geometric background pattern */
+        .bg-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 75% 25%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 25% 75%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
+                linear-gradient(45deg, transparent 40%, rgba(201, 176, 55, 0.03) 50%, transparent 60%),
+                linear-gradient(-45deg, transparent 40%, rgba(201, 176, 55, 0.03) 50%, transparent 60%);
+            background-size: 120px 120px, 120px 120px, 120px 120px, 120px 120px, 80px 80px, 80px 80px;
+        }
+
+        /* Ornamental borders */
+        .ornamental-border {
+            position: absolute;
+            inset: 20px;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #c9b037, transparent, #c9b037, transparent, #c9b037) 1;
+            pointer-events: none;
+        }
+
+        .ornamental-border::before {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border: 1px solid rgba(201, 176, 55, 0.3);
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 60px 30px 60px;
+        }
+
+        /* Logo styling with company name */
+        .logo-section {
+            position: absolute;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            z-index: 4;
+            top: 6%;
+        }
+
         .logo {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-        }
-        
-        .logo-icon {
-          width: 60px;
-          height: 60px;
-          background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 12px;
-          color: white;
-          font-weight: bold;
-          font-size: 24px;
-        }
-        
-        .company-name {
-          font-size: 28px;
-          font-weight: bold;
-          color: #1e3c72;
-          letter-spacing: 1px;
-        }
-        
-        .medal {
-          width: 80px;
-          height: 80px;
-          background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-        
-        .medal::before {
-          content: '★';
-          font-size: 40px;
-          color: #b8860b;
-        }
-        
-        /* Main content */
-        .main-content {
-          text-align: center;
-          padding: 20px 60px;
-        }
-        
-        .certificate-title {
-          font-size: 48px;
-          font-weight: bold;
-          color: #1e3c72;
-          margin-bottom: 10px;
-          letter-spacing: 2px;
-        }
-        
-        .certificate-subtitle {
-          font-size: 20px;
-          color: #666;
-          margin-bottom: 40px;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-        }
-        
-        .recognition-text {
-          font-size: 18px;
-          color: #333;
-          margin-bottom: 20px;
-        }
-        
-        .recipient-name {
-          font-size: 42px;
-          font-weight: bold;
-          color: #1e3c72;
-          margin: 30px 0;
-          border-bottom: 3px solid #1e3c72;
-          padding-bottom: 10px;
-          display: inline-block;
-        }
-        
-        .achievement-text {
-          font-size: 16px;
-          line-height: 1.8;
-          color: #444;
-          max-width: 800px;
-          margin: 0 auto 40px auto;
-          text-align: justify;
-        }
-        
-        .date {
-          font-size: 18px;
-          color: #666;
-          margin-bottom: 50px;
-        }
-        
-        /* Bottom section with geometric shapes */
-        .bottom-section {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 120px;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-        }
-        
-        .signatures {
-          display: flex;
-          justify-content: space-between;
-          width: 100%;
-          padding: 0 60px 30px 60px;
-          position: relative;
-          z-index: 2;
-        }
-        
-        .signature {
-          text-align: center;
-        }
-        
-        .signature-line {
-          width: 200px;
-          border-bottom: 2px solid #1e3c72;
-          margin-bottom: 8px;
-        }
-        
-        .signature-name {
-          font-weight: bold;
-          color: #1e3c72;
-          font-size: 16px;
-        }
-        
-        .signature-title {
-          color: #666;
-          font-size: 14px;
-        }
-        
-        /* Geometric decorations */
-        .geometric-left {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 300px;
-          height: 120px;
-          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-          clip-path: polygon(0 100%, 100% 100%, 70% 0, 0 20%);
-        }
-        
-        .geometric-right {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 300px;
-          height: 120px;
-          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-          clip-path: polygon(30% 0, 100% 20%, 100% 100%, 0 100%);
-        }
-        
-        /* Certificate ID */
-        .certificate-id {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          font-size: 12px;
-          color: #999;
-          font-family: 'Courier New', monospace;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="certificate">
-        <div class="certificate-id">ID: ${data.certificateId}</div>
-        
-        <div class="header">
-          <div class="logo">
-            <div class="logo-icon">KL</div>
-            <div class="company-name">KYRO LEARN</div>
-          </div>
-          <div class="medal"></div>
-        </div>
-        
-        <div class="main-content">
-          <h1 class="certificate-title">CERTIFICATE</h1>
-          <p class="certificate-subtitle">OF COMPLETION</p>
-          
-          <p class="recognition-text">This is to recognize and honor</p>
-          
-          <div class="recipient-name">${data.userName}</div>
-          
-          <p class="achievement-text">
-            for outstanding achievements in the ${data.internshipTitle} program as ${data.role}, 
-            where they consistently demonstrated exceptional leadership qualities, effective communication, 
-            and a collaborative spirit. Their ability to motivate others, coupled with strategic 
-            decision-making, made them a standout participant in the program.
-          </p>
-          
-          <p class="date">${data.issueDate}</p>
-        </div>
-        
-        <div class="bottom-section">
-          <div class="geometric-left"></div>
-          <div class="geometric-right"></div>
-          
-          <div class="signatures">
-            <div class="signature">
-              <div class="signature-line"></div>
-              <div class="signature-name">Program Director</div>
-              <div class="signature-title">Kyro Learn</div>
-            </div>
+            width: 80px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            margin-right: 15px;
             
-            <div class="signature">
-              <div class="signature-line"></div>
-              <div class="signature-name">General Manager</div>
-              <div class="signature-title">Operations</div>
-            </div>
-          </div>
+        }
+
+        .company-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.4;
+            letter-spacing: 1px;
+            max-width: 150px;
+        }
+
+        /* Gold ribbon badge - properly integrated */
+        .badge {
+            position: absolute;
+            top: 6%;
+            right: 4%;
+            width: 100px;
+            height: auto;
+            z-index: 3;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+            transform: rotate(-8deg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        .title {
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #1e1e1e;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .name-section {
+            text-align: center;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .awarded {
+            font-size: 20px;
+            color: #444;
+            margin-bottom: 15px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 60px;
+            color: #c9b037;
+            font-weight: 700;
+           
+            position: relative;
+            z-index: 3;
+        }
+
+        .name::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #c9b037, transparent);
+        }
+
+        .details {
+            max-width: 680px;
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            text-align: center;
+            font-family: 'Crimson Text', serif;
+            margin: 15px 0;
+        }
+
+        .details strong {
+            font-weight: 600;
+            color: #1e1e1e;
+        }
+
+        .date-section {
+            text-align: center;
+            margin: 10px 0 0 0;
+        }
+
+        .date {
+            font-size: 20px;
+            color: #444;
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* SIGNATURE AREA - REDUCED GAP */
+        .signature-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -5px;
+            width: 100%;
+        }
+
+        .signature-box {
+            text-align: center;
+            padding: 15px;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+
+        .signature-image {
+            width: 280px !important;
+            height: 90px !important;
+            object-fit: contain;
+            background: transparent;
+            border: none;
+            margin: 8px auto;
+            display: block !important;
+        }
+
+        .signature-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e1e1e;
+            margin-top: -20px;
+            margin-bottom: 3px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .signature-title {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Geometric accents */
+        .geometric-accent {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #c9b037;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .geo-1 {
+            top: 20%;
+            left: 15%;
+            transform: rotate(45deg);
+        }
+
+        .geo-2 {
+            top: 25%;
+            right: 20%;
+            border-radius: 50%;
+        }
+
+        .geo-3 {
+            bottom: 30%;
+            left: 18%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .geo-4 {
+            bottom: 35%;
+            right: 15%;
+            transform: rotate(45deg);
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .cert {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cert">
+        <!-- Decorative corners -->
+        <div class="corner-tl"></div>
+        <div class="corner-tr"></div>
+        <div class="corner-bl"></div>
+        <div class="corner-br"></div>
+
+        <!-- Background patterns -->
+        <div class="bg-pattern"></div>
+        <div class="ornamental-border"></div>
+
+        <!-- Geometric accents -->
+        <div class="geometric-accent geo-1"></div>
+        <div class="geometric-accent geo-2"></div>
+        <div class="geometric-accent geo-3"></div>
+        <div class="geometric-accent geo-4"></div>
+
+        <!-- Logo and Company Name -->
+        <div class="logo-section">
+            <img class="logo" src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753822641/logo-2048_1_geghxn.png"
+                alt="Anand Jivan Foundation Trust">
+            <div class="company-name">Anand Jivan Foundation Trust</div>
         </div>
-      </div>
-    </body>
-    </html>
-  `;
-  }
+
+        <!-- Gold ribbon badge -->
+        <img class="badge"
+            src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753881880/pngkey.com-gold-ribbon-png-115183_cotmiq.png"
+            alt="Gold Award Ribbon">
+
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <div class="title">CERTIFICATE OF INTERNSHIP</div>
+                <div class="subtitle">Presented to</div>
+            </div>
+
+            <!-- Name section -->
+            <div class="name-section">
+                <div class="awarded">This certifies that</div>
+                <div class="name">${data.userName}</div>
+            </div>
+
+            <!-- Details -->
+            <div class="details">
+                Has successfully completed the <strong>${data.internshipTitle}</strong> program in the capacity of
+                <strong>${data.role}</strong>, demonstrating exceptional dedication and professional excellence from
+                <strong>${data.startDate}</strong> to <strong>${data.endDate}</strong>.
+            </div>
+
+            <!-- Date -->
+            <div class="date-section">
+                <div class="date">Issued on ${data.issueDate}</div>
+            </div>
+
+            <!-- SIGNATURE SECTION - REDUCED GAP -->
+            <div class="signature-section">
+                <div class="signature-box">
+                    <img class="signature-image"
+                        src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753881046/zzzzzzzzzzaa-removebg-preview_s5dx4g.png"
+                        alt="Guddu Kumar Signature" onload="console.log('Signature loaded successfully')"
+                        onerror="console.log('Signature failed to load'); this.style.border='3px solid red'; this.alt='SIGNATURE MISSING';">
+                    <div class="signature-name">Guddu Kumar</div>
+                    <div class="signature-title">Chief Executive Officer</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>`;
+}
 
   // Calculate duration between dates
   private calculateDuration(startDate: Date, endDate: Date): string {

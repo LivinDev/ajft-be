@@ -6,7 +6,7 @@ import * as nodemailer from 'nodemailer';
 export class EmailService {
   private transporter;
   private readonly companyName: string = 'Anand Jivan Foundation Trust';
-  private readonly companyLogo: string = 'https://res.cloudinary.com/dkc66bu0s/image/upload/v1739383692/Group_3_1_ddhejw.png';
+  private readonly companyLogo: string = 'https://res.cloudinary.com/dkc66bu0s/image/upload/v1753822641/logo-2048_1_geghxn.png';
   private readonly primaryColor: string = '#0b6c1eff'; 
   private readonly footerText: string = '© 2025 Anand Jivan Foundation Trust. All rights reserved.';
 
@@ -197,13 +197,7 @@ async sendInternshipCompletionEmail(email: string, userName: string, completionD
       to: email,
       subject: `🎓 Internship Completion Certificate - ${completionDetails.title}`,
       html: this.getBaseTemplate(content),
-      attachments: [
-        {
-          filename: `${userName.replace(/\s+/g, '_')}_Certificate.html`,
-          content: certificateHTML,
-          contentType: 'text/html'
-        }
-      ]
+     
     };
 
     const info = await this.transporter.sendMail(mailOptions);
