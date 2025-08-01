@@ -151,18 +151,18 @@ export class InternshipsService {
 
     try {
       const page = await browser.newPage();
-      await page.setViewport({ width: 1100, height: 800 });
+      await page.setViewport({ width: 1122, height: 794 });
       await page.setContent(html, { waitUntil: 'networkidle0' });
       await page.evaluateHandle('document.fonts.ready');
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-     const pdfBuffer = await page.pdf({
-  format: 'Letter',
-  landscape: true,
-  printBackground: true,
-  margin: { top: '0', right: '0', bottom: '0', left: '0' },
-});
-
+      const pdfBuffer = await page.pdf({
+        width: '11.69in',
+        height: '8.27in',
+        printBackground: true,
+        margin: { top: '0', right: '0', bottom: '0', left: '0' },
+        preferCSSPageSize: true,
+      });
       return pdfBuffer;
     } finally {
       await browser.close();
@@ -675,18 +675,25 @@ export class InternshipsService {
   }
 
   // Generate certificate HTML template
-// Generate certificate HTML template
-// Generate certificate HTML template
-generateCertificateHTML(data: any): string {
-  return `
+  // Generate certificate HTML template
+  // Generate certificate HTML template
+  // Updated generateCertificateHTML method for your InternshipsService
+
+  generateCertificateHTML(data: any): string {
+    return `
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Certificate – ${data.userName}</title>
+    <title>Certificate - ${data.userName}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@700&family=Crimson+Text:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:wght@400;600&display=swap');
+
+        @page {
+    size: 11.69in 8.27in;
+    margin: 0;
+}
 
         * {
             margin: 0;
@@ -695,97 +702,85 @@ generateCertificateHTML(data: any): string {
         }
 
         body {
-            width: 11in;
-            height: 8.5in;
+            width: 11.69in;
+            height: 8.27in;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #f5f2ed 0%, #e8e2d5 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8ecf0 100%);
             font-family: 'Playfair Display', serif;
         }
 
         .cert {
             position: relative;
-            width: 10.8in;
-            height: 8.3in;
+            width: 11.69in;
+            height: 8.27in;
             background: #fff;
-            border: 32px solid transparent;
-            border-image: linear-gradient(45deg, #c9b037, #f4e87c, #c9b037, #8b7355) 1;
-            border-radius: 0;
             overflow: hidden;
-            box-shadow:
-                0 0 0 8px #c9b037,
-                0 0 0 12px #fff,
-                0 0 0 16px #8b7355,
-                0 20px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
-        /* Decorative corner elements */
-        .corner-tl,
-        .corner-tr,
-        .corner-bl,
-        .corner-br {
+        /* Frame corners using the specific images for each corner - larger size to eliminate gaps */
+        .frame-corner {
             position: absolute;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, #c9b037 0%, #f4e87c 50%, #c9b037 100%);
+            width: 300px;
+            height: 300px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
             z-index: 1;
         }
 
-        .corner-tl {
-            top: -40px;
-            left: -40px;
-            border-radius: 0 0 100% 0;
+        .frame-tl {
+            top: -10px;
+            left: -10px;
+            background-image: url('https://res.cloudinary.com/dkc66bu0s/image/upload/v1754057474/d1_1_obwupi.png');
         }
 
-        .corner-tr {
-            top: -40px;
-            right: -40px;
-            border-radius: 0 0 0 100%;
+        .frame-tr {
+            top: -10px;
+            right: -10px;
+            background-image: url('https://res.cloudinary.com/dkc66bu0s/image/upload/v1754055995/d1_hrdfme.png');
         }
 
-        .corner-bl {
-            bottom: -40px;
-            left: -40px;
-            border-radius: 0 100% 0 0;
+        .frame-bl {
+            bottom: -10px;
+            left: -10px;
+            background-image: url('https://res.cloudinary.com/dkc66bu0s/image/upload/v1754057076/d1_qfnkut.png');
         }
 
-        .corner-br {
-            bottom: -40px;
-            right: -40px;
-            border-radius: 100% 0 0 0;
+        .frame-br {
+            bottom: -10px;
+            right: -10px;
+            background-image: url('https://res.cloudinary.com/dkc66bu0s/image/upload/v1754057579/d1_4_h6mnbs.png');
         }
 
-        /* Rich geometric background pattern */
-        .bg-pattern {
+        /* Header Logos Section */
+        .header-logos {
             position: absolute;
-            inset: 0;
-            background-image:
-                radial-gradient(circle at 25% 25%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 75% 25%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 25% 75%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(201, 176, 55, 0.08) 0%, transparent 50%),
-                linear-gradient(45deg, transparent 40%, rgba(201, 176, 55, 0.03) 50%, transparent 60%),
-                linear-gradient(-45deg, transparent 40%, rgba(201, 176, 55, 0.03) 50%, transparent 60%);
-            background-size: 120px 120px, 120px 120px, 120px 120px, 120px 120px, 80px 80px, 80px 80px;
+            top: 60px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 200px;
+            z-index: 3;
         }
 
-        /* Ornamental borders */
-        .ornamental-border {
-            position: absolute;
-            inset: 20px;
-            border: 3px solid;
-            border-image: linear-gradient(45deg, #c9b037, transparent, #c9b037, transparent, #c9b037) 1;
-            pointer-events: none;
+        .logo-left,
+        .logo-center,
+        .logo-right {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
-        .ornamental-border::before {
-            content: '';
-            position: absolute;
-            inset: 15px;
-            border: 1px solid rgba(201, 176, 55, 0.3);
+        .logo-center {
+            height: 90px;
         }
 
+        /* Content area */
         .content {
             position: relative;
             z-index: 2;
@@ -793,206 +788,162 @@ generateCertificateHTML(data: any): string {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 100px 60px 30px 60px;
-        }
-
-        /* Logo styling with company name */
-        .logo-section {
-            position: absolute;
-            left: 5%;
-            display: flex;
-            align-items: center;
-            z-index: 4;
-            top: 6%;
-        }
-
-        .logo {
-            width: 80px;
-            height: auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-            margin-right: 15px;
-            
-        }
-
-        .company-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            line-height: 1.4;
-            letter-spacing: 1px;
-            max-width: 150px;
-        }
-
-        /* Gold ribbon badge - properly integrated */
-        .badge {
-            position: absolute;
-            top: 6%;
-            right: 4%;
-            width: 100px;
-            height: auto;
-            z-index: 3;
-            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
-            transform: rotate(-8deg);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 10px;
-            margin-top: 40px;
-        }
-
-        .title {
-            font-size: 38px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: #1e1e1e;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            font-size: 18px;
-            letter-spacing: 2px;
-            color: #666;
-            font-weight: 400;
-        }
-
-        .name-section {
-            text-align: center;
-            margin: 15px 0;
-            position: relative;
-        }
-
-        .awarded {
-            font-size: 20px;
-            color: #444;
-            margin-bottom: 15px;
-            font-family: 'Crimson Text', serif;
-        }
-
-        .name {
-            font-family: 'Dancing Script', cursive;
-            font-size: 60px;
-            color: #c9b037;
-            font-weight: 700;
-           
-            position: relative;
-            z-index: 3;
-        }
-
-        .name::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 3px;
-            background: linear-gradient(to right, transparent, #c9b037, transparent);
-        }
-
-        .details {
-            max-width: 680px;
-            font-size: 18px;
-            color: #333;
-            line-height: 1.6;
-            text-align: center;
-            font-family: 'Crimson Text', serif;
-            margin: 15px 0;
-        }
-
-        .details strong {
-            font-weight: 600;
-            color: #1e1e1e;
-        }
-
-        .date-section {
-            text-align: center;
-            margin: 10px 0 0 0;
-        }
-
-        .date {
-            font-size: 20px;
-            color: #444;
-            font-family: 'Crimson Text', serif;
-        }
-
-        /* SIGNATURE AREA - REDUCED GAP */
-        .signature-section {
-            display: flex;
             justify-content: center;
-            align-items: center;
-            margin-top: -5px;
-            width: 100%;
+            padding: 150px 100px 160px 100px;
         }
 
-        .signature-box {
+        /* Certificate Title */
+        .title-section {
             text-align: center;
-            padding: 15px;
-            min-width: 320px;
-            margin: 0 auto;
+            margin-bottom: 48px;
         }
 
-        .signature-image {
-            width: 280px !important;
-            height: 90px !important;
-            object-fit: contain;
-            background: transparent;
-            border: none;
-            margin: 8px auto;
-            display: block !important;
-        }
-
-        .signature-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e1e1e;
-            margin-top: -20px;
-            margin-bottom: 3px;
+        .main-title {
+            font-size: 58px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #1e3a8a;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
             font-family: 'Playfair Display', serif;
         }
 
-        .signature-title {
-            font-size: 14px;
-            color: #666;
+        .sub-title {
+            font-size: 32px;
+            letter-spacing: 3px;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        /* Certification Text */
+        .certification-text {
+            text-align: center;
+            margin: 2px 0;
+            font-size: 18px;
+            color: #374151;
             font-style: italic;
             font-family: 'Crimson Text', serif;
         }
 
-        /* Geometric accents */
-        .geometric-accent {
+        /* Name Section */
+        .name-section {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .recipient-name {
+            font-size: 42px;
+            font-weight: 700;
+            color: #1e3a8a;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .name-underline {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #c9b037;
-            opacity: 0.6;
-            z-index: 1;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #1e3a8a, transparent);
         }
 
-        .geo-1 {
-            top: 20%;
-            left: 15%;
-            transform: rotate(45deg);
+        /* Details Section */
+        .details-section {
+            max-width: 600px;
+            text-align: center;
+            margin: 25px 0;
         }
 
-        .geo-2 {
-            top: 25%;
-            right: 20%;
-            border-radius: 50%;
+        .details-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #374151;
+            font-family: 'Crimson Text', serif;
         }
 
-        .geo-3 {
-            bottom: 30%;
-            left: 18%;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        .details-text strong {
+            color: #1e3a8a;
+            font-weight: 600;
         }
 
-        .geo-4 {
-            bottom: 35%;
-            right: 15%;
-            transform: rotate(45deg);
+        /* Signature Section - positioned like the reference */
+        .signature-area {
+            position: absolute;
+            bottom: 80px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 100px;
+            z-index: 2;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 280px;
+        }
+
+        .signature-image {
+            width: 200px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: -5px;
+        }
+
+        .signature-line {
+            width: 200px;
+            height: 3px;
+            background: #1e3a8a;
+            margin: 0 auto 8px auto;
+        }
+
+        .signature-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 3px;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+        }
+
+        .signature-title {
+            font-size: 12px;
+            color: #6b7280;
+            font-style: italic;
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Central Seal - positioned between signatures */
+        .central-seal {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 130px;
+            z-index: 3;
+        }
+
+        .seal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Date section */
+        .date-section {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            font-family: 'Crimson Text', serif;
         }
 
         @media print {
@@ -1009,76 +960,96 @@ generateCertificateHTML(data: any): string {
 
 <body>
     <div class="cert">
-        <!-- Decorative corners -->
-        <div class="corner-tl"></div>
-        <div class="corner-tr"></div>
-        <div class="corner-bl"></div>
-        <div class="corner-br"></div>
+        <!-- Frame corners using the provided golden frame image -->
+        <div class="frame-corner frame-tl"></div>
+        <div class="frame-corner frame-tr"></div>
+        <div class="frame-corner frame-bl"></div>
+        <div class="frame-corner frame-br"></div>
 
-        <!-- Background patterns -->
-        <div class="bg-pattern"></div>
-        <div class="ornamental-border"></div>
+        <!-- Header Logos -->
+        <div class="header-logos">
+            <!-- Left: 75th Anniversary Logo -->
+            <img class="logo-left" src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1754055994/d3_eszy6e.png"
+                alt="75th Anniversary">
 
-        <!-- Geometric accents -->
-        <div class="geometric-accent geo-1"></div>
-        <div class="geometric-accent geo-2"></div>
-        <div class="geometric-accent geo-3"></div>
-        <div class="geometric-accent geo-4"></div>
+            <!-- Center: Government Emblem -->
+            <img class="logo-center" src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1754055994/d4_cfsrlt.png"
+                alt="Government Emblem">
 
-        <!-- Logo and Company Name -->
-        <div class="logo-section">
-            <img class="logo" src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753822641/logo-2048_1_geghxn.png"
+            <!-- Right: Organization Logo -->
+            <img class="logo-right"
+                src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753822641/logo-2048_1_geghxn.png"
                 alt="Anand Jivan Foundation Trust">
-            <div class="company-name">Anand Jivan Foundation Trust</div>
         </div>
 
-        <!-- Gold ribbon badge -->
-        <img class="badge"
-            src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753881880/pngkey.com-gold-ribbon-png-115183_cotmiq.png"
-            alt="Gold Award Ribbon">
-
         <div class="content">
-            <!-- Header -->
-            <div class="header">
-                <div class="title">CERTIFICATE OF INTERNSHIP</div>
-                <div class="subtitle">Presented to</div>
+            <!-- Certificate Title -->
+            <div class="title-section">
+                <div class="main-title">CERTIFICATE</div>
+                <div class="sub-title">OF INTERNSHIP</div>
             </div>
 
-            <!-- Name section -->
+            <!-- Certification Statement -->
+            <div class="certification-text">
+                This is to certify that:
+            </div>
+
+            <!-- Recipient Name -->
             <div class="name-section">
-                <div class="awarded">This certifies that</div>
-                <div class="name">${data.userName}</div>
+                <div class="recipient-name">${data.userName}</div>
+                <div class="name-underline"></div>
             </div>
 
             <!-- Details -->
-            <div class="details">
-                Has successfully completed the <strong>${data.internshipTitle}</strong> program in the capacity of
-                <strong>${data.role}</strong>, demonstrating exceptional dedication and professional excellence from
-                <strong>${data.startDate}</strong> to <strong>${data.endDate}</strong>.
+            <div class="details-section">
+                <div class="details-text">
+                      has successfully completed an internship at <strong>Anand Jivan Foundation Trust</strong> 
+        as a <strong>${data.internshipTitle}</strong> from <strong>${data.startDate}</strong> to 
+        <strong>${data.endDate}</strong>, and has shown sincerity and active participation throughout the program.
+                </div>
             </div>
 
             <!-- Date -->
             <div class="date-section">
-                <div class="date">Issued on ${data.issueDate}</div>
+                Issued on ${data.issueDate}
             </div>
+        </div>
 
-            <!-- SIGNATURE SECTION - REDUCED GAP -->
-            <div class="signature-section">
-                <div class="signature-box">
-                    <img class="signature-image"
-                        src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1753881046/zzzzzzzzzzaa-removebg-preview_s5dx4g.png"
-                        alt="Guddu Kumar Signature" onload="console.log('Signature loaded successfully')"
-                        onerror="console.log('Signature failed to load'); this.style.border='3px solid red'; this.alt='SIGNATURE MISSING';">
-                    <div class="signature-name">Guddu Kumar</div>
-                    <div class="signature-title">Chief Executive Officer</div>
-                </div>
+        <!-- Signature Section - positioned at bottom -->
+        <div class="signature-area">
+            <div class="signature-box">
+                <img class="signature-image"
+                    src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1754062089/output-onlinepngtools_4_o9bqc8.png"
+                    alt="Guddu Kumar Signature">
+                <div class="signature-line"></div>
+                <div class="signature-name">MR. GUDDU KUMAR</div>
+                <div class="signature-title">Chief Executive Officer</div>
             </div>
+           
+
+            <div class="signature-box">
+            
+                <div class="signature-box" >
+                 <img class="signature-image"
+                    src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1754070228/output-onlinepngtools_5_z7uxxv.png"
+                    alt="Guddu Kumar Signature">
+                </div> <!-- Space for signature -->
+                <div class="signature-line"></div>
+                <div class="signature-name">MRS. POOJA KUMARI</div>
+                <div class="signature-title">Program Director</div>
+            </div>
+        </div>
+
+        <!-- Central Seal -->
+        <div class="central-seal">
+            <img class="seal-image" src="https://res.cloudinary.com/dkc66bu0s/image/upload/v1754055994/d2_q7shvi.png"
+                alt="Official Seal">
         </div>
     </div>
 </body>
 
 </html>`;
-}
+  }
 
   // Calculate duration between dates
   private calculateDuration(startDate: Date, endDate: Date): string {

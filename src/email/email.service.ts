@@ -7,7 +7,7 @@ export class EmailService {
   private transporter;
   private readonly companyName: string = 'Anand Jivan Foundation Trust';
   private readonly companyLogo: string = 'https://res.cloudinary.com/dkc66bu0s/image/upload/v1753822641/logo-2048_1_geghxn.png';
-  private readonly primaryColor: string = '#0b6c1eff'; 
+  private readonly primaryColor: string = '#1a237e'; 
   private readonly footerText: string = '© 2025 Anand Jivan Foundation Trust. All rights reserved.';
 
   constructor(private configService: ConfigService) {
@@ -39,7 +39,7 @@ export class EmailService {
                   <!-- Header -->
                   <tr>
                     <td style="padding: 30px 40px; text-align: center; background-color: ${this.primaryColor}; border-radius: 8px 8px 0 0;">
-                      <img src="${this.companyLogo}" alt="${this.companyName}" style="height: 40px; margin-bottom: 20px;">
+                      <img src="${this.companyLogo}" alt="${this.companyName}" style="height: 80px; margin-bottom: 20px;">
                       <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 600;">${this.companyName}</h1>
                     </td>
                   </tr>
